@@ -23,3 +23,6 @@ data/private/
 Thumbs.db
 .vscode/
 .idea/
+
+# Private working notes (plan, lessons) — never published
+tasks/

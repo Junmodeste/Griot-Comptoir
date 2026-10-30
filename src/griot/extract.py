@@ -37,7 +37,9 @@ does not equal the written total, keep what is written: a later verification ste
 - entry_type: debt when the line marks credit ("crédit", "doit", "gbêlê", "pas payé", \
 a customer name with no payment), repayment when a customer pays back, purchase for \
 restocking from a supplier, sale for cash sales.
-- Dates: ISO YYYY-MM-DD. If the year is missing, use the reference year given below.
+- Dates: ISO YYYY-MM-DD. A line without its own date takes the date written above it \
+(usually the page date). If the year is missing, use the reference year given below.
+- unit: lowercase singular ("2 sacs" -> "sac"); null when no unit is written.
 - legibility: low if you had to guess any field, medium if one field was hard, else high.
 """
 
