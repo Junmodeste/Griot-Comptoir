@@ -45,7 +45,6 @@ pytest
 | `data/samples/` | Synthetic, fully fictional ledger pages |
 | `eval/ground_truth/` | Hand-checked JSON for each sample page |
 | `scripts/` | Connection check, synthetic page generator |
-| `tasks/` | Working plan and lessons learned |
 
 ## Data and privacy
 
