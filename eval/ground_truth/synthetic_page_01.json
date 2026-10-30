@@ -1,0 +1,79 @@
+{
+  "page_date": "2026-10-12",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Riz parfumé 2 sacs x 18.500 = 37.000",
+      "entry_type": "sale",
+      "product": "riz parfumé",
+      "quantity": 2.0,
+      "unit": "sac",
+      "unit_price": 18500.0,
+      "total": 37000.0,
+      "customer": null,
+      "date": "2026-10-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Huile 3 L x 1.300 = 3.900",
+      "entry_type": "sale",
+      "product": "huile",
+      "quantity": 3.0,
+      "unit": "L",
+      "unit_price": 1300.0,
+      "total": 3900.0,
+      "customer": null,
+      "date": "2026-10-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Koffi doit : sucre 2 paquets x 650 = 1.300",
+      "entry_type": "debt",
+      "product": "sucre",
+      "quantity": 2.0,
+      "unit": "paquet",
+      "unit_price": 650.0,
+      "total": 1300.0,
+      "customer": "Koffi",
+      "date": "2026-10-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Savon 5 x 250 = 1.250",
+      "entry_type": "sale",
+      "product": "savon",
+      "quantity": 5.0,
+      "unit": null,
+      "unit_price": 250.0,
+      "total": 1250.0,
+      "customer": null,
+      "date": "2026-10-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Tantie Adjo a payé 5.000",
+      "entry_type": "repayment",
+      "product": null,
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 5000.0,
+      "customer": "Tantie Adjo",
+      "date": "2026-10-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Lait concentré 4 boîtes x 450 = 2.000",
+      "entry_type": "sale",
+      "product": "lait concentré",
+      "quantity": 4.0,
+      "unit": "boîte",
+      "unit_price": 450.0,
+      "total": 2000.0,
+      "customer": null,
+      "date": "2026-10-12",
+      "legibility": "high"
+    }
+  ],
+  "notes": null
+}
