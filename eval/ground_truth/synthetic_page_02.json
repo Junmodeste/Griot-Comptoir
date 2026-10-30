@@ -1,0 +1,67 @@
+{
+  "page_date": "2026-10-13",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Achat grossiste : 10 sacs riz x 17.000 = 170.000",
+      "entry_type": "purchase",
+      "product": "riz",
+      "quantity": 10.0,
+      "unit": "sac",
+      "unit_price": 17000.0,
+      "total": 170000.0,
+      "customer": null,
+      "date": "2026-10-13",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Attiéké 6 tas x 200 = 1.200",
+      "entry_type": "sale",
+      "product": "attiéké",
+      "quantity": 6.0,
+      "unit": "tas",
+      "unit_price": 200.0,
+      "total": 1200.0,
+      "customer": null,
+      "date": "2026-10-13",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Maman Awa crédit : tomate 3 boîtes x 300 = 900",
+      "entry_type": "debt",
+      "product": "tomate",
+      "quantity": 3.0,
+      "unit": "boîte",
+      "unit_price": 300.0,
+      "total": 900.0,
+      "customer": "Maman Awa",
+      "date": "2026-10-13",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Cube Maggi 20 x 25 = 500",
+      "entry_type": "sale",
+      "product": "cube maggi",
+      "quantity": 20.0,
+      "unit": null,
+      "unit_price": 25.0,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-10-13",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Pétrole 2 L x 700 = 1.400",
+      "entry_type": "sale",
+      "product": "pétrole",
+      "quantity": 2.0,
+      "unit": "L",
+      "unit_price": 700.0,
+      "total": 1400.0,
+      "customer": null,
+      "date": "2026-10-13",
+      "legibility": "high"
+    }
+  ],
+  "notes": null
+}

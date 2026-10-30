@@ -1,0 +1,91 @@
+{
+  "page_date": "2026-10-14",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Gaz 1 bouteille x 5.500 = 5.500",
+      "entry_type": "sale",
+      "product": "gaz",
+      "quantity": 1.0,
+      "unit": "bouteille",
+      "unit_price": 5500.0,
+      "total": 5500.0,
+      "customer": null,
+      "date": "2026-10-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Yao gbêlê : pain 4 x 150 = 600",
+      "entry_type": "debt",
+      "product": "pain",
+      "quantity": 4.0,
+      "unit": null,
+      "unit_price": 150.0,
+      "total": 600.0,
+      "customer": "Yao",
+      "date": "2026-10-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Huile 1 bidon 5 L x 6.000 = 6.000",
+      "entry_type": "sale",
+      "product": "huile",
+      "quantity": 1.0,
+      "unit": "bidon",
+      "unit_price": 6000.0,
+      "total": 6000.0,
+      "customer": null,
+      "date": "2026-10-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Koffi a payé 1.300",
+      "entry_type": "repayment",
+      "product": null,
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1300.0,
+      "customer": "Koffi",
+      "date": "2026-10-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Spaghetti 8 paquets x 300 = 2.400",
+      "entry_type": "sale",
+      "product": "spaghetti",
+      "quantity": 8.0,
+      "unit": "paquet",
+      "unit_price": 300.0,
+      "total": 2400.0,
+      "customer": null,
+      "date": "2026-10-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Sucre 3 kg x 700 = 2.200",
+      "entry_type": "sale",
+      "product": "sucre",
+      "quantity": 3.0,
+      "unit": "kg",
+      "unit_price": 700.0,
+      "total": 2200.0,
+      "customer": null,
+      "date": "2026-10-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Achat : 2 cartons savon x 9.000 = 18.000",
+      "entry_type": "purchase",
+      "product": "savon",
+      "quantity": 2.0,
+      "unit": "carton",
+      "unit_price": 9000.0,
+      "total": 18000.0,
+      "customer": null,
+      "date": "2026-10-14",
+      "legibility": "high"
+    }
+  ],
+  "notes": null
+}
