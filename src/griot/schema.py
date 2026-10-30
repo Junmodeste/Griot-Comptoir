@@ -33,11 +33,11 @@ class LedgerLine(BaseModel):
     entry_type: EntryType
     product: str | None = Field(description="Product name, expanded and normalised in French.")
     quantity: float | None
-    unit: str | None = Field(description="Unit as written: sac, kg, boîte, paquet, bidon, tas, pièce...")
+    unit: str | None = Field(description="Unit, lowercase singular: sac, kg, L, boîte, paquet, bidon, tas, carton...")
     unit_price: float | None = Field(description="Price of one unit in XOF.")
     total: float | None = Field(description="Line total in XOF, as written on the page.")
     customer: str | None = Field(description="Customer or supplier name, as written.")
-    date: dt.date | None
+    date: dt.date | None = Field(description="Line date; the page date when the line has none.")
     legibility: Legibility = Field(description="How clearly the line could be read.")
 
 
