@@ -50,3 +50,15 @@ def test_evaluate_dir(tmp_path):
     assert report["missing_pages"] == 2
     expected = len(_truth().lines) / report["gt_lines"]
     assert abs(report["overall_accuracy"] - round(expected, 4)) < 1e-9
+
+
+def test_review_metrics_count_caught_booking_errors():
+    gt = _truth()
+    lines = list(gt.lines)
+    lines[0] = lines[0].model_copy(update={"total": 3700})  # booking error, flagged
+    lines[1] = lines[1].model_copy(update={"total": 390})  # booking error, only its page is flagged
+    pred = gt.model_copy(update={"lines": lines})
+    verdict = {"review_queue": [0], "issues": [{"code": "page_total_mismatch"}]}
+    result = evaluate_page(gt, pred, verdict)
+    assert (result["booked_error_lines"], result["booked_errors_caught_by_line"],
+            result["booked_errors_caught_by_page"], result["page_questions"]) == (2, 1, 1, 1)
