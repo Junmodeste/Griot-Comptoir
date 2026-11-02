@@ -12,13 +12,18 @@ In Abidjan, most small shops ("boutiques", market stalls) keep their accounts in
 ## How it works
 
 ```
-ledger photo ──► Muse Spark (vision + JSON schema) ──► LedgerPage (pydantic)
-                                                        │
-                                       verification (arithmetic, units, confidence)  [planned]
-                                                        │
-                                        human review of doubtful lines only          [planned]
-                                                        │
-                                          Odoo XML-RPC sync + audit log               [planned]
+photo of a notebook page
+   │
+   ├─ Muse Spark 1.3 (vision, JSON schema)        read every line verbatim + structured fields
+   ├─ sideways photo? rotate and read again        the model reports the rotation it sees
+   ├─ grounding                                    drop any quantity/price not written on the line
+   ├─ verification (deterministic)                 qty × price = total, sum of lines = page total,
+   │                                               FCFA multiples of 5, units, debts need a customer
+   ├─ targeted re-read (Muse Spark, high effort)   only where a check failed; writer errors are kept
+   ├─ review queue                                 a human answers only the doubtful lines / pages
+   └─ Odoo sync (XML-RPC)                          purchase → receipt, sale → delivery,
+                                                   credit → customer invoice, repayment → payment
+every step → audit.jsonl (append-only)
 ```
 
 ## Quickstart (Windows PowerShell)
@@ -27,12 +32,22 @@ ledger photo ──► Muse Spark (vision + JSON schema) ──► LedgerPage (p
 py -m venv .venv   # Python 3.10+
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-Copy-Item .env.example .env   # then put your Meta Model API key in MODEL_API_KEY
-python scripts\check_connection.py
-python -m griot.extract data\samples --out eval\predictions\muse-spark-1.3
-python -m griot.evaluate --pred eval\predictions\muse-spark-1.3
-pytest
+Copy-Item .env.example .env   # fill MODEL_API_KEY, and the ODOO_* lines to sync
+pytest                                                   # offline tests
+python scripts\check_connection.py                      # Meta Model API reachable?
+python -m griot.agent data\samples --out runs\demo     # read + verify + review queue
+python -m griot.evaluate --pred runs\demo               # accuracy vs ground truth
+python -m griot.sync runs\demo                          # book the safe lines into Odoo
+python -m griot.sync runs\demo --approve real_page_03:page,4   # after a human answered
 ```
+
+`scripts\setup_odoo_demo.py` prepares an empty test database (XOF, Côte d'Ivoire). Never run it on a real company.
+
+## Results so far
+
+On 15 handwritten pages (103 lines, phone photos sent over WhatsApp): every line found, none invented,
+up to 0.96 field accuracy, unit price 1.00 after grounding. A human answers 5 line questions and
+19 page questions instead of re-reading 103 lines. Details and caveats: [eval/README.md](eval/README.md).
 
 ## Repository layout
 
@@ -40,11 +55,20 @@ pytest
 |---|---|
 | `src/griot/client.py` | Meta Model API client (OpenAI-compatible), retries on 429/5xx/timeouts only |
 | `src/griot/schema.py` | `LedgerPage` / `LedgerLine` schema, shared by the model request and the validation |
-| `src/griot/extract.py` | Ledger photo → validated `LedgerPage` (CLI) |
-| `src/griot/evaluate.py` | Per-field accuracy against ground truth (CLI) |
-| `data/samples/` | Synthetic, fully fictional ledger pages |
-| `eval/ground_truth/` | Hand-checked JSON for each sample page |
-| `scripts/` | Connection check, synthetic page generator |
+| `src/griot/extract.py` | Ledger photo → validated `LedgerPage` |
+| `src/griot/verify.py` | Deterministic checks, confidence, review queue |
+| `src/griot/agent.py` | The agent loop: extract, rotate, ground, verify, re-read |
+| `src/griot/odoo.py`, `sync.py` | Odoo XML-RPC client and idempotent booking (`GRIOT/<page>/L<lines>` references) |
+| `src/griot/audit.py` | Append-only JSONL audit log |
+| `src/griot/evaluate.py` | Per-field accuracy and review-queue metrics |
+| `data/samples/`, `eval/ground_truth/` | 15 handwritten + 3 synthetic pages and their ground truth |
+
+## Known limits
+
+- Units of measure are not mapped to Odoo UoMs yet: "4 L" of oil is booked as 4 units.
+- Product names are matched to Odoo by exact (case-insensitive) name; a new spelling creates a new product.
+- No VAT: small informal shops sell taxes included.
+- XML-RPC (required for this project) is deprecated in Odoo 19 and scheduled for removal in Odoo 22 (server log); `odoo.py` is the only place to change for the JSON-2 API.
 
 ## Data and privacy
 
