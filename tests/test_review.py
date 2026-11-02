@@ -89,3 +89,10 @@ def test_page_date_fills_undated_lines_and_clears_the_question(store):
 
     assert view["page_issues"] == [] and {l["date"] for l in view["page"]["lines"]} == {"2026-10-15"}
     assert _events(store)[-1]["field"] == "page_date"
+
+
+def test_unit_mismatch_from_odoo_shows_until_the_line_is_corrected(store):
+    store.audit.write("synthetic_page_01", "sync_held", line=2, reason="unit_mismatch: 'L' cannot convert")
+    assert store.view("synthetic_page_01")["odoo_held"] == [{"line": 2, "reason": "unit_mismatch: 'L' cannot convert"}]
+    store.correct("synthetic_page_01", 2, "unit", "bidon")
+    assert store.view("synthetic_page_01")["odoo_held"] == []

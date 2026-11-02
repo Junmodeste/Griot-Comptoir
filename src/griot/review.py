@@ -57,13 +57,25 @@ class ReviewStore:
         path = self.run_dir / "approvals.json"
         return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
-    def booked(self, page_id: str) -> list[dict]:
+    def _events(self, page_id: str) -> list[dict]:
         path = self.run_dir / "audit.jsonl"
         if not path.exists():
             return []
-        events = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines()]
-        return [{"name": e["name"], "kind": e["kind"], "amount": e["amount"]} for e in events
-                if e["page"] == page_id and e["event"] in ("odoo_booked", "odoo_already_synced")]
+        return [e for e in map(json.loads, path.read_text(encoding="utf-8").splitlines()) if e["page"] == page_id]
+
+    def booked(self, page_id: str) -> list[dict]:
+        return [{"name": e["name"], "kind": e["kind"], "amount": e["amount"]} for e in self._events(page_id)
+                if e["event"] in ("odoo_booked", "odoo_already_synced")]
+
+    def odoo_held(self, page_id: str) -> dict[int, str]:
+        """Lines Odoo could not take at the last booking (e.g. a unit that cannot convert)."""
+        held = {}
+        for e in self._events(page_id):
+            if e["event"] == "sync_held" and e["reason"].startswith("unit_mismatch"):
+                held[e["line"]] = e["reason"]
+            elif e["event"] == "human_correction" and e.get("line") in held:
+                held.pop(e["line"])  # the human changed the line since
+        return held
 
     def view(self, page_id: str) -> dict:
         page = self.load(page_id)
@@ -83,6 +95,7 @@ class ReviewStore:
                                     "lines": [l.line_no for l in d.lines]} for d in plan.documents],
                      "held": [{"line": n, "reason": r} for n, r in plan.held]},
             "booked": self.booked(page_id),
+            "odoo_held": [{"line": n, "reason": r} for n, r in sorted(self.odoo_held(page_id).items())],
         }
 
     def summary(self) -> list[dict]:

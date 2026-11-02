@@ -184,6 +184,7 @@ function render(v) {
         ${v.plan.documents.length ? `<table><tbody>${v.plan.documents.map(d => `<tr><td>${KIND[d.kind]}</td><td>${esc(d.partner)}</td><td>lignes ${d.lines.join(", ")}</td><td style="text-align:right">${fcfa(d.amount)}</td></tr>`).join("")}</tbody></table>`
           : `<p class="muted">Rien pour l'instant : répondez d'abord aux questions.</p>`}
         ${v.plan.held.length ? `<p class="muted">En attente : ${v.plan.held.map(h => `ligne ${h.line}`).join(", ")}.</p>` : ""}
+        ${v.odoo_held.length ? `<p class="issues" style="font-size:13px">${v.odoo_held.map(h => `⚠ Ligne ${h.line} non enregistrée : l'unité ne correspond pas à celle du produit dans Odoo. Corrigez l'unité ou la quantité, puis enregistrez de nouveau.`).join("<br>")}</p>` : ""}
       </section>
     </div>`;
   document.getElementById("photo").onclick = e => e.currentTarget.classList.toggle("zoom");

@@ -35,6 +35,9 @@ DEFAULT_PARTNER = {
 GENERIC_PRODUCT = "Divers (non détaillé)"
 BOOKING_ORDER = [EntryType.purchase, EntryType.sale, EntryType.debt, EntryType.repayment]
 NO_TAX = [(6, 0, [])]  # informal retail: prices are taxes included, no VAT line
+# Physical units map onto Odoo's own units, which Odoo converts (kg <-> g, L <-> cl).
+# Containers from the notebook (sac, carton, tas...) become units of their own: a "sac" has no fixed weight.
+ODOO_UNITS = {"kg": "kg", "kilo": "kg", "g": "g", "l": "L", "litre": "L", "ml": "ml", "cl": "cl"}
 
 
 @dataclass
@@ -44,6 +47,7 @@ class BookLine:
     quantity: float
     price_unit: float
     description: str
+    unit: str | None = None
 
 
 @dataclass
@@ -52,6 +56,7 @@ class Document:
     partner: str
     date: dt.date
     lines: list[BookLine]
+    resolved: dict[int, tuple[int, int]] = field(default_factory=dict)  # line_no -> (product id, uom id)
 
     def ref(self, page_id: str) -> str:
         return f"GRIOT/{page_id}/L" + "-".join(str(l.line_no) for l in self.lines)
@@ -106,7 +111,7 @@ def plan_page(page_id: str, page: LedgerPage, verdict: PageVerdict | None = None
         price = v.computed_total / quantity
         partner = line.customer or DEFAULT_PARTNER.get(line.entry_type, "Client comptoir")
         date = line.date or page.page_date or today or dt.date.today()
-        book = BookLine(no, line.product, quantity, price, line.raw_text)
+        book = BookLine(no, line.product, quantity, price, line.raw_text, line.unit)
         # One document per page, partner and kind; a repayment is always its own payment.
         key = (line.entry_type, partner, date, no if line.entry_type == EntryType.repayment else None)
         if key not in groups:
@@ -122,6 +127,7 @@ class OdooSync:
     def __init__(self, odoo: OdooClient, audit: AuditLog):
         self.odoo = odoo
         self.audit = audit
+        self._uoms: dict[str, int] = {}
 
     # --- master data -------------------------------------------------------------------------
     def partner(self, name: str) -> int:
@@ -132,19 +138,53 @@ class OdooSync:
         self.audit.write("", "odoo_create", model="res.partner", id=pid, name=name)
         return pid
 
-    def product(self, name: str | None) -> int:
+    def uom(self, unit: str | None) -> int:
+        name = ODOO_UNITS.get((unit or "").casefold(), (unit or "").casefold()) or "Units"
+        if name not in self._uoms:
+            found = self.odoo.call("uom.uom", "search", [("name", "=", name)], limit=1)
+            if found:
+                self._uoms[name] = found[0]
+            else:
+                values = {"name": name}
+                if name == "cl":
+                    values.update(relative_uom_id=self.uom("ml"), relative_factor=10)
+                self._uoms[name] = self.odoo.call("uom.uom", "create", values)
+                self.audit.write("", "odoo_create", model="uom.uom", id=self._uoms[name], name=name)
+        return self._uoms[name]
+
+    def _uom_root(self, uom_id: int) -> str:
+        path = self.odoo.call("uom.uom", "read", [uom_id], fields=["parent_path"])[0]["parent_path"]
+        return path.split("/")[0]
+
+    def product(self, name: str | None, uom_id: int | None = None) -> tuple[int, int]:
+        """(product id, its unit). A new product is kept in the unit of its first line."""
         name = name or GENERIC_PRODUCT
-        found = self.odoo.call("product.product", "search", [("name", "=ilike", name)], limit=1)
+        found = self.odoo.call("product.product", "search_read", [("name", "=ilike", name)],
+                               fields=["uom_id"], limit=1)
         if found:
-            return found[0]
-        values = {"name": name, "taxes_id": NO_TAX, "supplier_taxes_id": NO_TAX}
+            return found[0]["id"], found[0]["uom_id"][0]
+        uom_id = self.uom(None) if name == GENERIC_PRODUCT else uom_id or self.uom(None)
+        values = {"name": name, "taxes_id": NO_TAX, "supplier_taxes_id": NO_TAX, "uom_id": uom_id}
         if name == GENERIC_PRODUCT:
             values["type"] = "service"
         else:
             values.update(type="consu", is_storable=True)
         pid = self.odoo.call("product.product", "create", values)
         self.audit.write("", "odoo_create", model="product.product", id=pid, name=name)
-        return pid
+        return pid, uom_id
+
+    def _resolve(self, page_id: str, doc: Document) -> list[tuple[BookLine, int, int]]:
+        """Product and unit for each line; a line whose unit cannot convert to the product's is held."""
+        resolved = []
+        for line in doc.lines:
+            line_uom = self.uom(line.unit)
+            product_id, product_uom = self.product(line.product, line_uom)
+            if line.product and self._uom_root(line_uom) != self._uom_root(product_uom):
+                self.audit.write(page_id, "sync_held", line=line.line_no,
+                                 reason=f"unit_mismatch: '{line.unit or 'Units'}' cannot convert to the product's unit")
+                continue
+            resolved.append((line, product_id, line_uom if line.product else product_uom))
+        return resolved
 
     # --- documents ---------------------------------------------------------------------------
     def apply(self, plan: SyncPlan) -> list[dict]:
@@ -152,6 +192,12 @@ class OdooSync:
             self.audit.write(plan.page_id, "sync_held", line=no, reason=reason)
         results = []
         for doc in plan.documents:
+            if doc.kind != EntryType.repayment:
+                lines = self._resolve(plan.page_id, doc)
+                doc = Document(doc.kind, doc.partner, doc.date, [l for l, _, _ in lines],
+                               {l.line_no: (pid, uid) for l, pid, uid in lines})
+                if not doc.lines:
+                    continue
             ref = doc.ref(plan.page_id)
             book = {EntryType.purchase: self._purchase, EntryType.sale: self._sale,
                     EntryType.debt: self._invoice, EntryType.repayment: self._payment}[doc.kind]
@@ -172,8 +218,9 @@ class OdooSync:
         return {"model": model, "id": found[0]["id"], "name": found[0]["name"]} if found else None
 
     def _order_lines(self, doc: Document, qty_field: str) -> list:
-        return [(0, 0, {"product_id": self.product(l.product), qty_field: l.quantity, "price_unit": l.price_unit,
-                        "name": l.description, "tax_ids": NO_TAX}) for l in doc.lines]
+        return [(0, 0, {"product_id": doc.resolved[l.line_no][0], "product_uom_id": doc.resolved[l.line_no][1],
+                        qty_field: l.quantity, "price_unit": l.price_unit, "name": l.description, "tax_ids": NO_TAX})
+                for l in doc.lines]
 
     def _move_goods(self, picking_ids: list[int]) -> list[str]:
         """Mark every move as done and validate: the notebook says the goods moved."""
@@ -208,7 +255,8 @@ class OdooSync:
         mid = self.odoo.call("account.move", "create", {
             "move_type": "out_invoice", "partner_id": self.partner(doc.partner), "ref": ref,
             "invoice_date": doc.date.isoformat(),
-            "invoice_line_ids": [(0, 0, {"product_id": self.product(l.product), "quantity": l.quantity,
+            "invoice_line_ids": [(0, 0, {"product_id": doc.resolved[l.line_no][0],
+                                         "product_uom_id": doc.resolved[l.line_no][1], "quantity": l.quantity,
                                          "price_unit": l.price_unit, "name": l.description, "tax_ids": NO_TAX})
                                  for l in doc.lines]})
         self.odoo.call("account.move", "action_post", [mid])

@@ -1,4 +1,5 @@
 import datetime as dt
+import json
 import os
 import uuid
 
@@ -94,3 +95,31 @@ def test_sync_against_odoo(tmp_path):
 
     again = sync.apply(plan_page(page_id, page, today=dt.date(2026, 10, 12)))
     assert [r["status"] for r in again] == ["already_synced"] * 4
+
+
+@pytest.mark.odoo
+def test_units_convert_or_hold(tmp_path):
+    """Oil bought in litres and sold in centilitres converts; oil sold by the 'bidon' is held."""
+    if not os.environ.get("ODOO_URL"):
+        pytest.skip("ODOO_URL not set")
+    from griot.odoo import OdooClient
+    from griot.sync import OdooSync
+
+    odoo = OdooClient.from_env()
+    tag = uuid.uuid4().hex[:6]
+    oil = f"huile {tag}"
+    page = LEDGER.model_copy(update={"lines": [
+        line("Achat huile 25 L x 1.200 = 30.000", entry_type="purchase", product=oil, quantity=25, unit="L",
+             unit_price=1200, total=30000),
+        line("Huile 500 cl x 15 = 7.500", product=oil, quantity=500, unit="cl", unit_price=15, total=7500),
+        line("Huile 1 bidon x 6.000 = 6.000", product=oil, quantity=1, unit="bidon", unit_price=6000, total=6000),
+    ]})
+    audit = AuditLog(tmp_path / "audit.jsonl")
+
+    results = OdooSync(odoo, audit).apply(plan_page(f"units_{tag}", page))
+
+    assert [r["status"] for r in results] == ["booked", "booked"]
+    product = odoo.call("product.product", "search_read", [("name", "=", oil)], fields=["qty_available", "uom_id"])[0]
+    assert product["uom_id"][1] == "L" and product["qty_available"] == pytest.approx(20)  # 25 L - 500 cl
+    held = [e for e in map(json.loads, audit.path.read_text().splitlines()) if e["event"] == "sync_held"]
+    assert [(e["line"], e["reason"].split(":")[0]) for e in held] == [(3, "unit_mismatch")]
