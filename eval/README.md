@@ -57,3 +57,34 @@ questions are 13 page totals that do not match their lines (the volunteers were 
 mistakes) and 6 pages without a date. All 4 lines whose error would change the books sit on a flagged
 page; none of them is flagged on its own line (`booked_error_recall_line` = 0), which is the next thing
 to improve.
+
+## Muse Spark 1.3 vs Muse Spark Open (3 Nov, same agent, same prompt, reasoning medium/high)
+
+Muse Spark 1.3 on Meta Model API, Muse Spark Open (`meta-models/muse-spark-open`) on Baseten. 15 real pages,
+103 lines; both runs in parallel. Prices: $1.25 in / $4.25 out per million tokens for both (Meta pricing page;
+Baseten rate from a third-party snapshot of its pricing page, Baseten's site is not reachable from the build box).
+
+| | Muse Spark 1.3 | Muse Spark Open |
+|---|---|---|
+| Line recall / invented lines | 1.00 / 0 | 0.90 / 9 |
+| Overall field accuracy (after the agent) | **0.961** | 0.782 |
+| total · quantity · unit price | 0.98 · 0.97 · 1.00 | 0.86 · 0.84 · 0.90 |
+| date · entry type · product | 0.95 · 1.00 · 0.83 | 0.84 · 0.87 · 0.35 |
+| Synthetic pages | 1.00 | 0.95 |
+| Seconds per page (all calls) | 34 | **24** |
+| Cost per page (all calls, re-reads included) | $0.037 | $0.034 |
+| Lines with a booking error | 6 | 24 |
+| ...of which reach a human (line or page flag) | 5 (83 %) | **23 (96 %)** |
+| Human questions (lines + pages) | 9 + 18 | 29 + 17 |
+
+What the open model gets wrong on handwriting: it books headings and "Total" lines as entries, keeps
+packaging in product names ("Carton savon mousse"), misreads words ("Savon" for "Serpillière") and once read an
+11-line page as a single line. The verification layer is what keeps it safe: 23 of its 24 booking errors are
+stopped before Odoo, at the cost of three times more human questions.
+
+The one Muse Spark 1.3 error that slipped through is instructive: on page 14 it read "3.200" as 2 200, and the
+writer had also written a wrong page total, 1 000 below the real sum. The misread made the lines add up to the
+written total, so no check fired. Two independent errors that cancel out are the blind spot of the sum check.
+
+Raw-extraction scores before the agent: Muse Spark 1.3 0.961, Muse Spark Open 0.767 (the agent's straightening
+and re-read add 1.5 points to the open model).

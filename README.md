@@ -59,9 +59,13 @@ approve, and books the page into Odoo. Every correction and approval goes to `au
 
 ## Results so far
 
-On 15 handwritten pages (103 lines, phone photos sent over WhatsApp): every line found, none invented,
-up to 0.96 field accuracy, unit price 1.00 after grounding. A human answers 5 line questions and
-19 page questions instead of re-reading 103 lines. Details and caveats: [eval/README.md](eval/README.md).
+On 15 handwritten pages (103 lines, phone photos sent over WhatsApp), with Muse Spark 1.3: every line
+found, none invented, 0.96 field accuracy, unit price 1.00 after grounding, about $0.04 per page for the whole
+agent. A human answers a few line and page questions instead of re-reading 103 lines.
+
+Same agent on the open-weight Muse Spark Open: faster (24 s vs 34 s per page) but weaker on handwriting
+(0.78 field accuracy); the verification layer still stops 23 of its 24 booking errors before Odoo.
+Details and caveats: [eval/README.md](eval/README.md).
 
 ## Repository layout
 
