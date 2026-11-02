@@ -70,7 +70,11 @@ up to 0.96 field accuracy, unit price 1.00 after grounding. A human answers 5 li
 
 ## Known limits
 
-- Units of measure are not mapped to Odoo UoMs yet: "4 L" of oil is booked as 4 units.
+- Units: kg/g/L/cl/ml use Odoo's own units (converted by Odoo); notebook containers (sac, carton, tas...)
+  become units of their own. A product keeps the unit of its first booking, and a later line in a unit
+  that cannot convert is held for review (6 of 103 lines on the sample pages, all genuine ambiguities).
+- A line with no written quantity ("Ail : 100F") is booked as 1 unit; there is no opening stock, so a sale
+  before any purchase makes stock negative.
 - Product names are matched to Odoo by exact (case-insensitive) name; a new spelling creates a new product.
 - No VAT: small informal shops sell taxes included.
 - XML-RPC (required for this project) is deprecated in Odoo 19 and scheduled for removal in Odoo 22 (server log); `odoo.py` is the only place to change for the JSON-2 API.
