@@ -22,4 +22,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["live: calls the real Meta Model API (needs MODEL_API_KEY)"]
+markers = [
+    "live: calls the real Meta Model API (needs MODEL_API_KEY)",
+    "odoo: writes to a real Odoo database (needs ODOO_URL, ODOO_DB, ODOO_USER, ODOO_API_KEY)",
+]

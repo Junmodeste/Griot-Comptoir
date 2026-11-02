@@ -21,6 +21,7 @@ from pathlib import Path
 from PIL import Image
 from pydantic import ValidationError
 
+from griot.audit import AuditLog
 from griot.client import MetaClient
 from griot.extract import IMAGE_SUFFIXES, ExtractionError, extract_page, image_to_data_url
 from griot.schema import LedgerPage, json_schema_format
@@ -46,19 +47,6 @@ Problems:
 Your first transcription:
 {page}
 """
-
-
-class AuditLog:
-    """Append-only JSONL: one event per decision, never rewritten."""
-
-    def __init__(self, path: Path):
-        self.path = path
-
-    def write(self, page: str, event: str, **data) -> None:
-        record = {"ts": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "page": page,
-                  "event": event, **data}
-        with self.path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
 
 
 def describe_problems(page: LedgerPage, verdict: PageVerdict) -> str:
