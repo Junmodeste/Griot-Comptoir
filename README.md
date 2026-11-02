@@ -1,13 +1,20 @@
 # Griot Comptoir
 
-AI agent that turns handwritten shop ledgers, shelf photos and voice notes from West African small traders into verified stock, sales and debt records synced to Odoo. Built with Meta's Muse Spark, SAM 3.1 and Muse Voice Transcribe.
+An agent that reads the handwritten notebooks of small shops in Côte d'Ivoire, checks what it read, asks a
+human only about what is doubtful, and books the rest into Odoo as purchases, sales, stock moves and customer
+debts. Built with Meta's Muse Spark 1.3, and compared against the open-weight Muse Spark Open.
 
-> Meta Global AI Developer Hackathon 2026 — Indie track — theme *Build for Your World*.
-> Status: work in progress (built 27 Oct – 4 Nov 2026).
+> Meta Global AI Developer Hackathon 2026 — Indie track — theme *Build for Your World*. Built 27 Oct – 4 Nov 2026.
 
 ## Why
 
-In Abidjan, most small shops ("boutiques", market stalls) keep their accounts in a paper notebook: cash sales, credit given to neighbours, restocking. That notebook never reaches an ERP. Griot Comptoir reads it, checks it, and writes it into Odoo.
+In Abidjan, most small shops ("boutiques", market stalls) keep their accounts in a paper notebook: cash sales,
+credit given to neighbours ("gbêlê"), restocking at the wholesaler. That notebook never reaches an ERP, so the
+shopkeeper cannot see stock, margins or who still owes money. I am an Odoo developer in Abidjan; Griot Comptoir is
+the bridge I wanted: photograph the page, answer two or three questions, and the books are up to date.
+
+The hard part is not reading the page, it is trusting what was read. A wrong amount in an ERP is worse than no ERP.
+So the agent checks itself, and a human decides whenever a check fails.
 
 ## How it works
 
@@ -46,10 +53,14 @@ Copy-Item .env.example .env   # fill MODEL_API_KEY, and the ODOO_* lines to sync
 pytest                                                   # offline tests
 python scripts\check_connection.py                      # Meta Model API reachable?
 python -m griot.agent data\samples --out runs\demo     # read + verify + review queue
-python -m griot.evaluate --pred runs\demo               # accuracy vs ground truth
+python -m griot.evaluate --pred runs\demo --prices 1.25 4.25   # accuracy, cost, latency
 python -m griot.review runs\demo                        # review page on http://127.0.0.1:8000
 python -m griot.sync runs\demo                          # or book from the command line
+python -m griot.agent data\samples --out runs\open --provider baseten   # same agent on Muse Spark Open
 ```
+
+**Odoo**: version 19 (Community or Enterprise) with Inventory, Sales, Purchase and Invoicing installed. Create
+an API key (Preferences → Account Security → New API Key) and put it in `ODOO_API_KEY`.
 
 The review page shows the photo next to what the agent read, asks only the open questions (a wrong
 calculation, a page total that does not add up, a missing date), lets the human correct a value or
@@ -57,7 +68,7 @@ approve, and books the page into Odoo. Every correction and approval goes to `au
 
 `scripts\setup_odoo_demo.py` prepares an empty test database (XOF, Côte d'Ivoire). Never run it on a real company.
 
-## Results so far
+## Results
 
 On 15 handwritten pages (103 lines, phone photos sent over WhatsApp), with Muse Spark 1.3: every line
 found, none invented, 0.96 field accuracy, unit price 1.00 after grounding, about $0.04 per page for the whole
@@ -93,10 +104,19 @@ Details and caveats: [eval/README.md](eval/README.md).
 - No VAT: small informal shops sell taxes included.
 - XML-RPC (required for this project) is deprecated in Odoo 19 and scheduled for removal in Odoo 22 (server log); `odoo.py` is the only place to change for the JSON-2 API.
 
+## Next
+
+- Voice notes ("Koffi a pris deux sacs à crédit") with Muse Voice Transcribe, through the same verification layer.
+- Shelf photos counted with SAM 3.1, compared with Odoo stock to flag gaps.
+- Fuzzy product matching against the Odoo catalogue, and an opening-stock step.
+- A cross-check for the one blind spot found in evaluation: a misread amount that happens to match a wrong page total.
+
 ## Data and privacy
 
-No real customer data is stored in this repository. Sample pages are synthetic; real pages used for evaluation are anonymised before being added.
+No real customer data is stored in this repository. The 15 `real_page_*` photos were handwritten on paper by
+volunteers with invented names and amounts; the 3 `synthetic_page_*` pages are generated. The review page and the
+Odoo sync run locally; only the photo is sent to the model API.
 
 ## License
 
-TBD
+[MIT](LICENSE)
