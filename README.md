@@ -113,9 +113,9 @@ Details and caveats: [eval/README.md](eval/README.md).
 
 ## Data and privacy
 
-No real customer data is stored in this repository. The 15 `real_page_*` photos were handwritten on paper by
-volunteers with invented names and amounts; the 3 `synthetic_page_*` pages are generated. The review page and the
-Odoo sync run locally; only the photo is sent to the model API.
+The 15 `real_page_*` photos are real pages collected in Côte d'Ivoire from volunteers who agreed to share them;
+they hold no surname, phone number or address. The 3 `synthetic_page_*` pages are generated. The review page and
+the Odoo sync run locally; only the photo is sent to the model API, in Standard mode (content not used for training).
 
 ## License
 
