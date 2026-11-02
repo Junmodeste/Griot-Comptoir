@@ -1,4 +1,5 @@
 {
+  "rotation": 0,
   "page_date": "2026-08-18",
   "currency": "XOF",
   "lines": [
@@ -17,7 +18,7 @@
     {
       "raw_text": "Poisson frais (carpe 2 kg) : 5.000 f",
       "entry_type": "purchase",
-      "product": "poisson frais (carpe)",
+      "product": "poisson frais",
       "quantity": 2.0,
       "unit": "kg",
       "unit_price": null,
@@ -41,7 +42,7 @@
     {
       "raw_text": "Huile dinor 2L : 2500",
       "entry_type": "purchase",
-      "product": "huile Dinor",
+      "product": "huile dinor",
       "quantity": 2.0,
       "unit": "L",
       "unit_price": null,
@@ -77,7 +78,7 @@
     {
       "raw_text": "wôrô - wôrô : 1.000 f",
       "entry_type": "expense",
-      "product": "transport (wôrô-wôrô)",
+      "product": null,
       "quantity": null,
       "unit": null,
       "unit_price": null,

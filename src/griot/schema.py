@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import datetime as dt
 from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -32,7 +33,12 @@ class LedgerLine(BaseModel):
 
     raw_text: str = Field(description="The line exactly as written, abbreviations and nouchi kept.")
     entry_type: EntryType
-    product: str | None = Field(description="Product name, expanded and normalised in French.")
+    product: str | None = Field(
+        description="Short canonical product name, lowercase singular, correctly spelled with abbreviations "
+        "expanded (\"spag\" -> \"spaghetti\"): generic noun + variety or brand "
+        "(\"huile rouge\", \"sucre saint-louis\", \"bière ivoire\"). No packaging, quantity, size or bracketed "
+        "explanation; join two products with \"et\". null for an expense, other entries, or a sale without goods."
+    )
     quantity: float | None
     unit: str | None = Field(description="Unit, lowercase singular: sac, kg, L, boîte, paquet, bidon, tas, carton...")
     unit_price: float | None = Field(description="Price of one unit in XOF.")
@@ -45,6 +51,9 @@ class LedgerLine(BaseModel):
 class LedgerPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
+    rotation: Literal[0, 90, 180, 270] = Field(
+        description="Clockwise rotation in degrees that makes the handwriting upright in this photo; 0 if upright."
+    )
     page_date: dt.date | None = Field(description="Date written at the top of the page, if any.")
     currency: str = Field(description="ISO currency code, XOF unless the page says otherwise.")
     lines: list[LedgerLine]

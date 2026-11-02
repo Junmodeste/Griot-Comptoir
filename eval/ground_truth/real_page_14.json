@@ -1,11 +1,12 @@
 {
+  "rotation": 0,
   "page_date": "2026-05-04",
   "currency": "XOF",
   "lines": [
     {
       "raw_text": "Viande de boeuf (1,5 Kg) : 4500f",
       "entry_type": "purchase",
-      "product": "viande de bœuf",
+      "product": "viande de boeuf",
       "quantity": 1.5,
       "unit": "kg",
       "unit_price": null,
@@ -17,7 +18,7 @@
     {
       "raw_text": "Aubergine violett + djakatou : 800F",
       "entry_type": "purchase",
-      "product": "aubergine violette + djakatou",
+      "product": "aubergine violette et djakatou",
       "quantity": null,
       "unit": null,
       "unit_price": null,

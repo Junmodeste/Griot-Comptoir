@@ -15,6 +15,7 @@ dist/
 
 # Local runs and private data (never commit real customer pages)
 eval/predictions/
+runs/
 data/private/
 *.log
 

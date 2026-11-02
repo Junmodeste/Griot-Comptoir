@@ -1,11 +1,12 @@
 {
+  "rotation": 0,
   "page_date": null,
   "currency": "XOF",
   "lines": [
     {
       "raw_text": "Bons. Kouadio (2 sucreries): 1000F",
       "entry_type": "purchase",
-      "product": "Bons Kouadio",
+      "product": "boisson kouadio",
       "quantity": 2.0,
       "unit": null,
       "unit_price": null,
@@ -17,7 +18,7 @@
     {
       "raw_text": "Nescafe stick (3): 300",
       "entry_type": "purchase",
-      "product": "Nescafé stick",
+      "product": "nescafé",
       "quantity": 3.0,
       "unit": null,
       "unit_price": null,
@@ -29,7 +30,7 @@
     {
       "raw_text": "Paquet thé Lipton: 1.200F",
       "entry_type": "purchase",
-      "product": "thé Lipton",
+      "product": "thé lipton",
       "quantity": null,
       "unit": "paquet",
       "unit_price": null,
@@ -53,7 +54,7 @@
     {
       "raw_text": "Beurre plantation: 500F",
       "entry_type": "purchase",
-      "product": "beurre Plantation",
+      "product": "beurre plantation",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -65,7 +66,7 @@
     {
       "raw_text": "Sucre St-Louis 1Kg: 1.000",
       "entry_type": "purchase",
-      "product": "sucre Saint-Louis",
+      "product": "sucre saint-louis",
       "quantity": 1.0,
       "unit": "kg",
       "unit_price": null,

@@ -41,9 +41,12 @@ restocking or market shopping, expense for money out that buys no goods (transpo
 taxes, fees), sale for cash sales, other for anything else (e.g. change given back).
 - A "Total" line at the bottom is not a ledger line: put its amount in written_total. \
 Headings ("Liste du marché", "Liste 3") go in notes.
-- Dates: ISO YYYY-MM-DD. A line without its own date takes the date written above it \
-(usually the page date). If the year is missing, use the reference year given below.
+- Dates: ISO YYYY-MM-DD. The page date is usually at the top, sometimes in a box or after \
+"Date", "Marché du" or a heading; read day and month carefully. A line without its own date \
+takes the date written above it (usually the page date). If the year is missing, use the reference year given below.
 - unit: lowercase singular ("2 sacs" -> "sac"); null when no unit is written.
+- quantity and unit_price: only when written on the line. "Carton savon : 4.800" has quantity null \
+and unit_price null, not 1 and 4800.
 - legibility: low if you had to guess any field, medium if one field was hard, else high.
 """
 

@@ -19,12 +19,15 @@ from griot.schema import LedgerLine, LedgerPage
 
 FIELDS = ["entry_type", "product", "quantity", "unit", "unit_price", "total", "customer", "date"]
 TEXT_FIELDS = {"product", "unit", "customer"}
+# Fields that change what gets booked: an error here must reach the review queue.
+BOOKED_FIELDS = ["entry_type", "quantity", "unit_price", "total", "customer"]
 NUMERIC_FIELDS = {"quantity", "unit_price", "total"}
 
 
 def _norm_text(value: str) -> str:
     folded = unicodedata.normalize("NFKD", value.casefold().replace("œ", "oe").replace("æ", "ae"))
-    return " ".join("".join(c for c in folded if not unicodedata.combining(c)).split())
+    plain = "".join(c if c.isalnum() else " " for c in folded if not unicodedata.combining(c))
+    return " ".join(plain.split())
 
 
 def field_equal(field: str, expected, predicted) -> bool:
@@ -57,16 +60,33 @@ def align(gt_lines: list[LedgerLine], pred_lines: list[LedgerLine]) -> list[tupl
     return [(g, pred_lines[matched[i]] if i in matched else None) for i, g in enumerate(gt_lines)]
 
 
-def evaluate_page(gt: LedgerPage, pred: LedgerPage) -> dict:
+def evaluate_page(gt: LedgerPage, pred: LedgerPage, verdict: dict | None = None) -> dict:
     pairs = align(gt.lines, pred.lines)
     correct = {f: sum(p is not None and field_equal(f, getattr(g, f), getattr(p, f)) for g, p in pairs) for f in FIELDS}
     matched = sum(p is not None for _, p in pairs)
+    review = {}
+    if verdict is not None:
+        flagged = set(verdict["review_queue"])
+        index = {id(p): j for j, p in enumerate(pred.lines)}
+        booked_errors = [p is None or not all(field_equal(f, getattr(g, f), getattr(p, f)) for f in BOOKED_FIELDS)
+                         for g, p in pairs]
+        caught_by_line = [err and p is not None and index[id(p)] in flagged for err, (_, p) in zip(booked_errors, pairs)]
+        review = {
+            "booked_error_lines": sum(booked_errors),
+            "booked_errors_caught_by_line": sum(caught_by_line),
+            # Not flagged itself, but its page is (e.g. a page total mismatch): a human looks at the page.
+            "booked_errors_caught_by_page": sum(err and not hit and bool(verdict["issues"])
+                                                for err, hit in zip(booked_errors, caught_by_line)),
+            "flagged_lines": len(flagged),
+            "page_questions": len(verdict["issues"]),
+        }
     return {
         "gt_lines": len(gt.lines),
         "matched_lines": matched,
         "spurious_lines": len(pred.lines) - matched,
         "correct": correct,
         "written_total_ok": field_equal("total", gt.written_total, pred.written_total),
+        **review,
     }
 
 
@@ -78,10 +98,13 @@ def evaluate_dir(gt_dir: Path, pred_dir: Path, pattern: str = "*.json") -> dict:
         pred_path = pred_dir / gt_path.name
         if pred_path.exists():
             pred = LedgerPage.model_validate_json(pred_path.read_text(encoding="utf-8"))
+            verdict_path = pred_dir / f"{gt_path.stem}.verdict.json"
+            verdict = json.loads(verdict_path.read_text(encoding="utf-8")) if verdict_path.exists() else None
         else:
             totals["missing_pages"] += 1
-            pred = LedgerPage(page_date=None, currency="XOF", lines=[], written_total=None, notes=None)
-        result = evaluate_page(gt, pred)
+            pred = LedgerPage(rotation=0, page_date=None, currency="XOF", lines=[], written_total=None, notes=None)
+            verdict = None
+        result = evaluate_page(gt, pred, verdict)
         pages[gt_path.stem] = result
         for key in ("gt_lines", "matched_lines", "spurious_lines"):
             totals[key] += result[key]
@@ -99,7 +122,25 @@ def evaluate_dir(gt_dir: Path, pred_dir: Path, pattern: str = "*.json") -> dict:
         "overall_accuracy": round(all_fields, 4) if all_fields is not None else None,
         "written_total_accuracy": round(sum(r["written_total_ok"] for r in pages.values()) / len(pages), 4)
         if pages else None,
+        **_review_summary(pages, totals["gt_lines"]),
         "per_page": pages,
+    }
+
+
+def _review_summary(pages: dict, gt_lines: int) -> dict:
+    with_verdict = [r for r in pages.values() if "flagged_lines" in r]
+    if not with_verdict:
+        return {}
+    errors = sum(r["booked_error_lines"] for r in with_verdict)
+    by_line = sum(r["booked_errors_caught_by_line"] for r in with_verdict)
+    by_page = sum(r["booked_errors_caught_by_page"] for r in with_verdict)
+    return {
+        "flagged_lines": sum(r["flagged_lines"] for r in with_verdict),
+        "page_questions": sum(r["page_questions"] for r in with_verdict),
+        "review_rate": round(sum(r["flagged_lines"] for r in with_verdict) / gt_lines, 4),
+        "booked_error_lines": errors,
+        "booked_error_recall_line": round(by_line / errors, 4) if errors else None,
+        "booked_error_recall_line_or_page": round((by_line + by_page) / errors, 4) if errors else None,
     }
 
 
@@ -118,6 +159,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {field:<11} {acc}")
     print(f"  {'OVERALL':<11} {report['overall_accuracy']}")
     print(f"  page written_total {report['written_total_accuracy']}")
+    if "review_rate" in report:
+        print(f"review: {report['flagged_lines']} lines ({report['review_rate']:.0%}) + {report['page_questions']} "
+              f"page questions; lines with a booking error: {report['booked_error_lines']}, caught by a flagged "
+              f"line: {report['booked_error_recall_line']}, by line or page: {report['booked_error_recall_line_or_page']}")
     if args.out:
         args.out.write_text(json.dumps(report, indent=2), encoding="utf-8")
     return 0

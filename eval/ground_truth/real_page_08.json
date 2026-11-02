@@ -1,11 +1,12 @@
 {
+  "rotation": 0,
   "page_date": null,
   "currency": "XOF",
   "lines": [
     {
       "raw_text": "3 Ivoire 66 cl: 2.400f",
       "entry_type": "purchase",
-      "product": "Bière Ivoire 66 cl",
+      "product": "bière ivoire",
       "quantity": 3.0,
       "unit": null,
       "unit_price": null,
@@ -17,7 +18,7 @@
     {
       "raw_text": "2 Guinness: 1.800",
       "entry_type": "purchase",
-      "product": "Bière Guinness",
+      "product": "bière guinness",
       "quantity": 2.0,
       "unit": null,
       "unit_price": null,
@@ -29,7 +30,7 @@
     {
       "raw_text": "1 Bouteil vin Rochemazet: 4,500F",
       "entry_type": "purchase",
-      "product": "Vin Roche Mazet",
+      "product": "vin roche mazet",
       "quantity": 1.0,
       "unit": "bouteille",
       "unit_price": null,
@@ -41,7 +42,7 @@
     {
       "raw_text": "1 Eau Awa 1,5L: 500",
       "entry_type": "purchase",
-      "product": "Eau Awa 1,5 L",
+      "product": "eau awa",
       "quantity": 1.0,
       "unit": null,
       "unit_price": null,
@@ -53,7 +54,7 @@
     {
       "raw_text": "Sachet glaçon: 300f",
       "entry_type": "purchase",
-      "product": "Glaçon",
+      "product": "glaçon",
       "quantity": null,
       "unit": "sachet",
       "unit_price": null,
@@ -65,7 +66,7 @@
     {
       "raw_text": "Ticket soup- pinefet (taxe main): 500f",
       "entry_type": "expense",
-      "product": "Ticket sous-préfecture (taxe main)",
+      "product": null,
       "quantity": null,
       "unit": null,
       "unit_price": null,

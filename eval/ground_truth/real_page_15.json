@@ -1,4 +1,5 @@
 {
+  "rotation": 0,
   "page_date": "2026-10-02",
   "currency": "XOF",
   "lines": [
@@ -17,7 +18,7 @@
     {
       "raw_text": "Placali préparé : 500f",
       "entry_type": "purchase",
-      "product": "placali préparé",
+      "product": "placali",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -29,7 +30,7 @@
     {
       "raw_text": "Kpala (feuille de gombo):400",
       "entry_type": "purchase",
-      "product": "feuille de gombo (kpala)",
+      "product": "feuille de gombo",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -53,7 +54,7 @@
     {
       "raw_text": "Peau de boeuf (Kanda): 1500",
       "entry_type": "purchase",
-      "product": "peau de boeuf (kanda)",
+      "product": "peau de boeuf",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -89,7 +90,7 @@
     {
       "raw_text": "Transport taxi compt : 2.000f",
       "entry_type": "expense",
-      "product": "transport taxi",
+      "product": null,
       "quantity": null,
       "unit": null,
       "unit_price": null,

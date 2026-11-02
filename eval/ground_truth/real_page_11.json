@@ -1,4 +1,5 @@
 {
+  "rotation": 270,
   "page_date": "2026-11-27",
   "currency": "XOF",
   "lines": [
@@ -77,7 +78,7 @@
     {
       "raw_text": "Bagasse / Sac marché : 200f",
       "entry_type": "purchase",
-      "product": "bagasse, sac de marché",
+      "product": "bagasse et sac de marché",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -89,7 +90,7 @@
     {
       "raw_text": "Transport bus + marché : 1000",
       "entry_type": "expense",
-      "product": "transport",
+      "product": null,
       "quantity": null,
       "unit": null,
       "unit_price": null,

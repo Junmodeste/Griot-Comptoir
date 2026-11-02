@@ -1,4 +1,5 @@
 {
+  "rotation": 0,
   "page_date": "2026-03-12",
   "currency": "XOF",
   "lines": [
@@ -29,7 +30,7 @@
     {
       "raw_text": "Poiss. fumé (machoiron) : 3.500 f",
       "entry_type": "purchase",
-      "product": "poisson fumé (mâchoiron)",
+      "product": "poisson fumé",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -89,7 +90,7 @@
     {
       "raw_text": "Transp ge/ret : 1500f",
       "entry_type": "expense",
-      "product": "transport aller/retour",
+      "product": null,
       "quantity": null,
       "unit": null,
       "unit_price": null,

@@ -1,10 +1,11 @@
 {
+  "rotation": 270,
   "page_date": "2026-11-03",
   "currency": "XOF",
   "lines": [
     {
       "raw_text": "Balai traditionnel : 400",
-      "entry_type": "sale",
+      "entry_type": "purchase",
       "product": "balai traditionnel",
       "quantity": null,
       "unit": null,
@@ -16,7 +17,7 @@
     },
     {
       "raw_text": "Eponge : 300F",
-      "entry_type": "sale",
+      "entry_type": "purchase",
       "product": "éponge",
       "quantity": null,
       "unit": null,
@@ -28,8 +29,8 @@
     },
     {
       "raw_text": "Omo lessive : 650",
-      "entry_type": "sale",
-      "product": "lessive Omo",
+      "entry_type": "purchase",
+      "product": "lessive omo",
       "quantity": null,
       "unit": null,
       "unit_price": null,
@@ -40,7 +41,7 @@
     },
     {
       "raw_text": "Serpillière : 800F",
-      "entry_type": "sale",
+      "entry_type": "purchase",
       "product": "serpillière",
       "quantity": null,
       "unit": null,
@@ -52,8 +53,8 @@
     },
     {
       "raw_text": "Cube maggi : 1200",
-      "entry_type": "sale",
-      "product": "cube Maggi",
+      "entry_type": "purchase",
+      "product": "cube maggi",
       "quantity": null,
       "unit": null,
       "unit_price": null,

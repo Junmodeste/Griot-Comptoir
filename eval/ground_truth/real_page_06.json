@@ -1,11 +1,12 @@
 {
+  "rotation": 0,
   "page_date": null,
   "currency": "XOF",
   "lines": [
     {
       "raw_text": "Carton savon Mousse : 4800f",
       "entry_type": "purchase",
-      "product": "Savon Mousse",
+      "product": "savon mousse",
       "quantity": null,
       "unit": "carton",
       "unit_price": null,
@@ -17,7 +18,7 @@
     {
       "raw_text": "Javel la Croix (3 bte) : 1500",
       "entry_type": "purchase",
-      "product": "Javel La Croix",
+      "product": "javel la croix",
       "quantity": 3.0,
       "unit": "boîte",
       "unit_price": null,
@@ -29,7 +30,7 @@
     {
       "raw_text": "Bougie pqt : 700f",
       "entry_type": "purchase",
-      "product": "Bougie",
+      "product": "bougie",
       "quantity": null,
       "unit": "paquet",
       "unit_price": null,
@@ -41,7 +42,7 @@
     {
       "raw_text": "Bocal bonbon paille : 2500",
       "entry_type": "purchase",
-      "product": "Bonbon paille",
+      "product": "bonbon paille",
       "quantity": null,
       "unit": "bocal",
       "unit_price": null,
@@ -53,7 +54,7 @@
     {
       "raw_text": "Piles Dcell (4) : 1200",
       "entry_type": "purchase",
-      "product": "Pile Dcell",
+      "product": "pile dcell",
       "quantity": 4.0,
       "unit": null,
       "unit_price": null,
@@ -65,7 +66,7 @@
     {
       "raw_text": "Transport pousse-pousse : 1000f",
       "entry_type": "expense",
-      "product": "Transport pousse-pousse",
+      "product": null,
       "quantity": null,
       "unit": null,
       "unit_price": null,
