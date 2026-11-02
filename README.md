@@ -26,6 +26,16 @@ photo of a notebook page
 every step → audit.jsonl (append-only)
 ```
 
+## How Meta models are used
+
+| Capability | Where | Why it matters here |
+|---|---|---|
+| Muse Spark 1.3 vision on phone photos | `extract.py` | Reads handwriting, French abbreviations and nouchi ("gbêlê" = credit) |
+| Structured output (`json_schema`, constrained decoding) | `schema.py` | One pydantic schema drives the request and the validation; no free-text parsing |
+| Reasoning effort as a dial | `extract.py` (medium), `agent.py` re-read (high) | Spend more reasoning only on the lines a check flagged |
+| Self-reported photo orientation | `LedgerPage.rotation` | The agent straightens sideways photos and reads them again |
+| Muse Spark Open (open weights, via Baseten) | `--provider baseten` | Same agent, open-weight model: compared on accuracy, cost and latency |
+
 ## Quickstart (Windows PowerShell)
 
 ```powershell
