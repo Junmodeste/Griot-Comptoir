@@ -43,6 +43,7 @@ def test_reread_fixes_misread_and_is_audited(make_client, tmp_path):
     # Line 6 keeps the writer's own arithmetic error: still in the review queue.
     assert [v.index for v in result.verdict.review_queue] == [5]
     assert [e["event"] for e in _events(audit.path)] == ["extracted", "verified", "reread", "ready"]
+    assert _events(audit.path)[2]["completion_tokens"] == 300  # re-read tokens are counted in the run cost
 
 
 def test_reread_that_changes_line_count_is_rejected(make_client, tmp_path):

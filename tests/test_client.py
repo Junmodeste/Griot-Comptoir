@@ -57,3 +57,12 @@ def test_live_connection():
     except RuntimeError:
         pytest.skip("MODEL_API_KEY not set")
     assert "ready" in client.ping().lower()
+
+
+def test_baseten_provider_config(monkeypatch):
+    monkeypatch.setattr("griot.client.load_dotenv", lambda: None)
+    monkeypatch.setenv("BASETEN_API_KEY", "x")
+    monkeypatch.delenv("BASETEN_BASE_URL", raising=False)
+    monkeypatch.delenv("MUSE_SPARK_OPEN_MODEL", raising=False)
+    config = ModelConfig.from_env("baseten")
+    assert (config.base_url, config.model) == ("https://inference.baseten.co/v1", "meta-models/muse-spark-open")

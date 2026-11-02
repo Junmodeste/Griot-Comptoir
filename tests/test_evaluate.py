@@ -1,6 +1,6 @@
 import shutil
 
-from griot.evaluate import FIELDS, evaluate_dir, evaluate_page, field_equal
+from griot.evaluate import FIELDS, evaluate_dir, evaluate_page, field_equal, run_usage
 from griot.schema import LedgerPage
 from tests.conftest import GROUND_TRUTH
 
@@ -62,3 +62,15 @@ def test_review_metrics_count_caught_booking_errors():
     result = evaluate_page(gt, pred, verdict)
     assert (result["booked_error_lines"], result["booked_errors_caught_by_line"],
             result["booked_errors_caught_by_page"], result["page_questions"]) == (2, 1, 1, 1)
+
+
+def test_run_usage_sums_model_calls_and_prices_them(tmp_path):
+    from griot.audit import AuditLog
+    audit = AuditLog(tmp_path / "audit.jsonl")
+    audit.write("p1", "extracted", latency_s=10, prompt_tokens=2000, completion_tokens=3000)
+    audit.write("p1", "reread", latency_s=20, changes=[])  # a re-read without token counts
+    audit.write("p2", "extracted", latency_s=12, prompt_tokens=2000, completion_tokens=1000)
+    audit.write("p2", "verified", review=[])
+    usage = run_usage(tmp_path, 1.25, 4.25)
+    assert usage == {"model_calls": 3, "tokens_in": 4000, "tokens_out": 4000, "seconds_per_page": 21.0,
+                     "cost_usd": 0.022, "cost_usd_per_page": 0.011}

@@ -63,7 +63,8 @@ def needs_reread(verdict: PageVerdict) -> bool:
     return bool(verdict.review_queue or verdict.issues)
 
 
-def reread_page(client: MetaClient, image: Path, page: LedgerPage, verdict: PageVerdict) -> LedgerPage:
+def reread_page(client: MetaClient, image: Path, page: LedgerPage, verdict: PageVerdict) -> tuple[LedgerPage, dict]:
+    """The re-read page and the call's token usage."""
     prompt = REREAD_PROMPT.format(problems=describe_problems(page, verdict), page=page.model_dump_json(indent=1))
     response = client.chat(
         [{"role": "user", "content": [
@@ -74,8 +75,11 @@ def reread_page(client: MetaClient, image: Path, page: LedgerPage, verdict: Page
         reasoning_effort="high",
     )
     raw = response.choices[0].message.content or ""
+    usage = response.usage
+    tokens = {"prompt_tokens": usage.prompt_tokens if usage else None,
+              "completion_tokens": usage.completion_tokens if usage else None}
     try:
-        return LedgerPage.model_validate_json(raw)
+        return LedgerPage.model_validate_json(raw), tokens
     except ValidationError as exc:
         raise ExtractionError(f"{image.name}: invalid re-read output: {exc}", raw) from exc
 
@@ -135,17 +139,18 @@ def process_page(client: MetaClient, image: Path, audit: AuditLog, *, work_dir: 
         did_reread = True
         start = time.perf_counter()
         try:
-            second = reread_page(client, image, page, verdict)
+            second, tokens = reread_page(client, image, page, verdict)
         except ExtractionError as exc:
             audit.write(name, "reread_rejected", reason=str(exc))
-            second = None
+            second, tokens = None, {}
         if second is not None and len(second.lines) != len(page.lines):
-            audit.write(name, "reread_rejected", reason=f"line count changed {len(page.lines)} -> {len(second.lines)}")
+            audit.write(name, "reread_rejected", reason=f"line count changed {len(page.lines)} -> {len(second.lines)}",
+                        latency_s=round(time.perf_counter() - start, 3), **tokens)
         elif second is not None:
             changes = field_changes(page, second)
             page = _grounded(name, second, audit)
             verdict = verify_page(page)
-            audit.write(name, "reread", latency_s=round(time.perf_counter() - start, 3), changes=changes,
+            audit.write(name, "reread", latency_s=round(time.perf_counter() - start, 3), **tokens, changes=changes,
                         review=[v.index + 1 for v in verdict.review_queue])
 
     audit.write(name, "ready", auto=len(verdict.lines) - len(verdict.review_queue),
@@ -159,11 +164,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--reference-date", type=dt.date.fromisoformat, default=None)
     parser.add_argument("--no-reread", action="store_true", help="Skip the targeted re-read step")
+    parser.add_argument("--provider", default="meta", choices=["meta", "baseten"],
+                        help="meta: Muse Spark on Meta Model API; baseten: Muse Spark Open")
     args = parser.parse_args(argv)
 
     images = [f for p in args.images for f in (sorted(p.iterdir()) if p.is_dir() else [p])
               if f.suffix.lower() in IMAGE_SUFFIXES]
-    client = MetaClient.from_env()
+    client = MetaClient.from_env(args.provider)
     (args.out / "extracted").mkdir(parents=True, exist_ok=True)
     audit = AuditLog(args.out / "audit.jsonl")
     failures = 0

@@ -144,21 +144,47 @@ def _review_summary(pages: dict, gt_lines: int) -> dict:
     }
 
 
+def run_usage(run_dir: Path, price_in: float | None = None, price_out: float | None = None) -> dict | None:
+    """Tokens, latency and cost of every model call an agent run logged in its audit.jsonl."""
+    path = run_dir / "audit.jsonl"
+    if not path.exists():
+        return None
+    calls = [e for e in map(json.loads, path.read_text(encoding="utf-8").splitlines())
+             if e["event"] in ("extracted", "rotated_and_extracted", "reread", "reread_rejected") and "latency_s" in e]
+    pages = {e["page"] for e in calls}
+    tokens_in = sum(e.get("prompt_tokens") or 0 for e in calls)
+    tokens_out = sum(e.get("completion_tokens") or 0 for e in calls)
+    usage = {"model_calls": len(calls), "tokens_in": tokens_in, "tokens_out": tokens_out,
+             "seconds_per_page": round(sum(e["latency_s"] for e in calls) / len(pages), 1) if pages else None}
+    if price_in is not None and price_out is not None:  # USD per million tokens
+        cost = (tokens_in * price_in + tokens_out * price_out) / 1e6
+        usage["cost_usd"] = round(cost, 4)
+        usage["cost_usd_per_page"] = round(cost / len(pages), 5) if pages else None
+    return usage
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--gt", type=Path, default=Path("eval/ground_truth"))
     parser.add_argument("--pred", type=Path, required=True)
     parser.add_argument("--pages", default="*.json", help="Ground-truth glob, e.g. 'real_page_*.json'")
     parser.add_argument("--out", type=Path, help="Write the full report as JSON")
+    parser.add_argument("--prices", type=float, nargs=2, metavar=("IN", "OUT"),
+                        help="USD per million input / output tokens, e.g. 1.25 4.25 for muse-spark-1.3")
     args = parser.parse_args(argv)
 
     report = evaluate_dir(args.gt, args.pred, args.pages)
+    usage = run_usage(args.pred, *(args.prices or (None, None)))
+    if usage:
+        report["usage"] = usage
     print(f"pages={report['pages']} lines={report['gt_lines']} recall={report['line_recall']} "
           f"spurious={report['spurious_lines']} missing_pages={report['missing_pages']}")
     for field, acc in report["field_accuracy"].items():
         print(f"  {field:<11} {acc}")
     print(f"  {'OVERALL':<11} {report['overall_accuracy']}")
     print(f"  page written_total {report['written_total_accuracy']}")
+    if usage:
+        print("usage: " + ", ".join(f"{k}={v}" for k, v in usage.items()))
     if "review_rate" in report:
         print(f"review: {report['flagged_lines']} lines ({report['review_rate']:.0%}) + {report['page_questions']} "
               f"page questions; lines with a booking error: {report['booked_error_lines']}, caught by a flagged "
