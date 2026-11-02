@@ -10,7 +10,6 @@ import argparse
 import base64
 import datetime as dt
 import json
-import mimetypes
 import sys
 import time
 from dataclasses import asdict, dataclass
@@ -68,13 +67,16 @@ class Extraction:
     completion_tokens: int | None
 
 
-IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+# Explicit table: on Windows, mimetypes reads the registry and may answer image/pjpeg, which the API rejects.
+IMAGE_TYPES = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp",
+               ".gif": "image/gif"}
+IMAGE_SUFFIXES = set(IMAGE_TYPES)
 
 
 def image_to_data_url(path: Path) -> str:
-    mime = mimetypes.guess_type(path.name)[0]
-    if path.suffix.lower() not in IMAGE_SUFFIXES or mime is None:
-        raise ValueError(f"Unsupported image type for {path}: {mime}")
+    mime = IMAGE_TYPES.get(path.suffix.lower())
+    if mime is None:
+        raise ValueError(f"Unsupported image type for {path}")
     return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode()}"
 
 

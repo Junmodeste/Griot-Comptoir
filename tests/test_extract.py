@@ -20,8 +20,11 @@ def test_schema_is_flat_and_closed():
     assert "LedgerPage" not in json.dumps(schema["$defs"])  # no recursion (rejected by the API)
 
 
-def test_image_data_url():
+def test_image_data_url(tmp_path):
     assert image_to_data_url(PAGE).startswith("data:image/jpeg;base64,/9j/")
+    upper = tmp_path / "PAGE.JPG"  # phones and Windows often write upper-case extensions
+    upper.write_bytes(PAGE.read_bytes())
+    assert image_to_data_url(upper).startswith("data:image/jpeg;base64,")
     with pytest.raises(ValueError):
         image_to_data_url(GROUND_TRUTH / "synthetic_page_01.json")
 
