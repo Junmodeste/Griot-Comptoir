@@ -1,0 +1,104 @@
+{
+  "page_date": "2026-11-27",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Chevreuil fumé : 6,000",
+      "entry_type": "purchase",
+      "product": "chevreuil fumé",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 6000.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Champignon noir : 1 000 f",
+      "entry_type": "purchase",
+      "product": "champignon noir",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Poivre vert + gingembre : 500",
+      "entry_type": "purchase",
+      "product": "poivre vert et gingembre",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Riz cassé 1 kg : 650f",
+      "entry_type": "purchase",
+      "product": "riz cassé",
+      "quantity": 1.0,
+      "unit": "kg",
+      "unit_price": null,
+      "total": 650.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "feuil de banana : 200",
+      "entry_type": "purchase",
+      "product": "feuille de banane",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 200.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Citron vert : 300f",
+      "entry_type": "purchase",
+      "product": "citron vert",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Bagasse / Sac marché : 200f",
+      "entry_type": "purchase",
+      "product": "bagasse, sac de marché",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 200.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Transport bus + marché : 1000",
+      "entry_type": "expense",
+      "product": "transport",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-11-27",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 10350.0,
+  "notes": "Liste 5"
+}

@@ -1,0 +1,104 @@
+{
+  "page_date": "2026-05-04",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Viande de boeuf (1,5 Kg) : 4500f",
+      "entry_type": "purchase",
+      "product": "viande de bœuf",
+      "quantity": 1.5,
+      "unit": "kg",
+      "unit_price": null,
+      "total": 4500.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Aubergine violett + djakatou : 800F",
+      "entry_type": "purchase",
+      "product": "aubergine violette + djakatou",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 800.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Graine de palme (Sembi) : 1000",
+      "entry_type": "purchase",
+      "product": "graine de palme",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Pate d'arachid : 700f",
+      "entry_type": "purchase",
+      "product": "pâte d'arachide",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 700.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Akpi moulu : 500",
+      "entry_type": "purchase",
+      "product": "akpi moulu",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Maggi poulet (2 tabl.) : 100f",
+      "entry_type": "purchase",
+      "product": "maggi poulet",
+      "quantity": 2.0,
+      "unit": "tablette",
+      "unit_price": null,
+      "total": 100.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Riz local 5Kg : 3.200",
+      "entry_type": "purchase",
+      "product": "riz local",
+      "quantity": 5.0,
+      "unit": "kg",
+      "unit_price": null,
+      "total": 3200.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Déplacement gbaka : 800F",
+      "entry_type": "expense",
+      "product": null,
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 800.0,
+      "customer": null,
+      "date": "2026-05-04",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 10600.0,
+  "notes": "Liste 2"
+}

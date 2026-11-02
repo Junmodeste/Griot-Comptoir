@@ -1,0 +1,80 @@
+{
+  "page_date": null,
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Bons. Kouadio (2 sucreries): 1000F",
+      "entry_type": "purchase",
+      "product": "Bons Kouadio",
+      "quantity": 2.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Nescafe stick (3): 300",
+      "entry_type": "purchase",
+      "product": "Nescafé stick",
+      "quantity": 3.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Paquet thé Lipton: 1.200F",
+      "entry_type": "purchase",
+      "product": "thé Lipton",
+      "quantity": null,
+      "unit": "paquet",
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Pain tapé (2): 300",
+      "entry_type": "purchase",
+      "product": "pain tapé",
+      "quantity": 2.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Beurre plantation: 500F",
+      "entry_type": "purchase",
+      "product": "beurre Plantation",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Sucre St-Louis 1Kg: 1.000",
+      "entry_type": "purchase",
+      "product": "sucre Saint-Louis",
+      "quantity": 1.0,
+      "unit": "kg",
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    }
+  ],
+  "written_total": 4100.0,
+  "notes": "Boutique générale"
+}

@@ -1,0 +1,80 @@
+{
+  "page_date": null,
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Carton savon Mousse : 4800f",
+      "entry_type": "purchase",
+      "product": "Savon Mousse",
+      "quantity": null,
+      "unit": "carton",
+      "unit_price": null,
+      "total": 4800.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Javel la Croix (3 bte) : 1500",
+      "entry_type": "purchase",
+      "product": "Javel La Croix",
+      "quantity": 3.0,
+      "unit": "boîte",
+      "unit_price": null,
+      "total": 1500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Bougie pqt : 700f",
+      "entry_type": "purchase",
+      "product": "Bougie",
+      "quantity": null,
+      "unit": "paquet",
+      "unit_price": null,
+      "total": 700.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Bocal bonbon paille : 2500",
+      "entry_type": "purchase",
+      "product": "Bonbon paille",
+      "quantity": null,
+      "unit": "bocal",
+      "unit_price": null,
+      "total": 2500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Piles Dcell (4) : 1200",
+      "entry_type": "purchase",
+      "product": "Pile Dcell",
+      "quantity": 4.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Transport pousse-pousse : 1000f",
+      "entry_type": "expense",
+      "product": "Transport pousse-pousse",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    }
+  ],
+  "written_total": 11200.0,
+  "notes": "Provision de la boutique"
+}

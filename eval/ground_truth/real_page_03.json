@@ -1,0 +1,140 @@
+{
+  "page_date": "2026-08-30",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Banane : 2 000F",
+      "entry_type": "purchase",
+      "product": "banane",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 2000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "igname : 5,000",
+      "entry_type": "purchase",
+      "product": "igname",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 5000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "2 Boites de tomate : 2x500 = 1,000",
+      "entry_type": "purchase",
+      "product": "boîte de tomate",
+      "quantity": 2.0,
+      "unit": "boîte",
+      "unit_price": 500.0,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "3 Poulets : 3x2500 = 7,000",
+      "entry_type": "purchase",
+      "product": "poulet",
+      "quantity": 3.0,
+      "unit": null,
+      "unit_price": 2500.0,
+      "total": 7000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Pomme de terre 1sac : 5,000",
+      "entry_type": "purchase",
+      "product": "pomme de terre",
+      "quantity": 1.0,
+      "unit": "sac",
+      "unit_price": null,
+      "total": 5000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Piment sec : 500",
+      "entry_type": "purchase",
+      "product": "piment sec",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Ail 100F",
+      "entry_type": "purchase",
+      "product": "ail",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 100.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Oignons 2k : 2x900 = 1400",
+      "entry_type": "purchase",
+      "product": "oignon",
+      "quantity": 2.0,
+      "unit": "kg",
+      "unit_price": 900.0,
+      "total": 1400.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Salade 500f",
+      "entry_type": "purchase",
+      "product": "salade",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Huile 25l : 30.000",
+      "entry_type": "purchase",
+      "product": "huile",
+      "quantity": 25.0,
+      "unit": "L",
+      "unit_price": null,
+      "total": 30000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Transport : 5000F",
+      "entry_type": "expense",
+      "product": null,
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 5000.0,
+      "customer": null,
+      "date": "2026-08-30",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 58250.0,
+  "notes": null
+}

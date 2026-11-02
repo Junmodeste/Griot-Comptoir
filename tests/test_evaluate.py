@@ -11,6 +11,7 @@ def _truth(name="synthetic_page_01"):
 
 def test_field_equal_normalises():
     assert field_equal("product", "Riz Parfumé", " riz  parfume ")
+    assert field_equal("product", "œuf", "oeuf")
     assert field_equal("total", 37000, 37000.0)
     assert not field_equal("total", 37000, 3700)
     assert field_equal("customer", None, None)
@@ -44,7 +45,7 @@ def test_field_error_is_counted():
 
 def test_evaluate_dir(tmp_path):
     shutil.copy(GROUND_TRUTH / "synthetic_page_01.json", tmp_path)  # other pages missing
-    report = evaluate_dir(GROUND_TRUTH, tmp_path)
+    report = evaluate_dir(GROUND_TRUTH, tmp_path, "synthetic_page_*.json")
     assert report["pages"] == 3
     assert report["missing_pages"] == 2
     expected = len(_truth().lines) / report["gt_lines"]

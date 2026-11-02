@@ -1,0 +1,104 @@
+{
+  "page_date": "2026-03-12",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Piment frais : 500f",
+      "entry_type": "purchase",
+      "product": "piment frais",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Gombo Bêté : 1000",
+      "entry_type": "purchase",
+      "product": "gombo bêté",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Poiss. fumé (machoiron) : 3.500 f",
+      "entry_type": "purchase",
+      "product": "poisson fumé (mâchoiron)",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 3500.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Huile rouge 1L : 1.200 F",
+      "entry_type": "purchase",
+      "product": "huile rouge",
+      "quantity": 1.0,
+      "unit": "L",
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Oignon + ail : 750",
+      "entry_type": "purchase",
+      "product": "oignon et ail",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 750.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Djoumblé : 500 F",
+      "entry_type": "purchase",
+      "product": "djoumblé",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Attiéké 3 Boules : 600",
+      "entry_type": "purchase",
+      "product": "attiéké",
+      "quantity": 3.0,
+      "unit": "boule",
+      "unit_price": null,
+      "total": 600.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Transp ge/ret : 1500f",
+      "entry_type": "expense",
+      "product": "transport aller/retour",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1500.0,
+      "customer": null,
+      "date": "2026-03-12",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 8550.0,
+  "notes": "Part 1: 5 Listes de marché (Achat d'ingrédients ivoiriens), Liste 1"
+}

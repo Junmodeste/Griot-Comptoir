@@ -1,0 +1,80 @@
+{
+  "page_date": null,
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "3 Ivoire 66 cl: 2.400f",
+      "entry_type": "purchase",
+      "product": "Bière Ivoire 66 cl",
+      "quantity": 3.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 2400.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "2 Guinness: 1.800",
+      "entry_type": "purchase",
+      "product": "Bière Guinness",
+      "quantity": 2.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 1800.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "1 Bouteil vin Rochemazet: 4,500F",
+      "entry_type": "purchase",
+      "product": "Vin Roche Mazet",
+      "quantity": 1.0,
+      "unit": "bouteille",
+      "unit_price": null,
+      "total": 4500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "1 Eau Awa 1,5L: 500",
+      "entry_type": "purchase",
+      "product": "Eau Awa 1,5 L",
+      "quantity": 1.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Sachet glaçon: 300f",
+      "entry_type": "purchase",
+      "product": "Glaçon",
+      "quantity": null,
+      "unit": "sachet",
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Ticket soup- pinefet (taxe main): 500f",
+      "entry_type": "expense",
+      "product": "Ticket sous-préfecture (taxe main)",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    }
+  ],
+  "written_total": 9500.0,
+  "notes": "Maquis / Cave a boisson"
+}

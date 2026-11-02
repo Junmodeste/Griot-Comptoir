@@ -1,0 +1,80 @@
+{
+  "page_date": null,
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Paquet cigarette Fine : 1.200f",
+      "entry_type": "sale",
+      "product": "Paquet de cigarettes Fine",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Briquet : 250",
+      "entry_type": "sale",
+      "product": "Briquet",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 250.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Biscuits de Médard : 500",
+      "entry_type": "sale",
+      "product": "Biscuits de Médard",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Carte recharge Orange 1k: 1.000F",
+      "entry_type": "sale",
+      "product": "Carte de recharge Orange",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Recharge MTN : 2000",
+      "entry_type": "sale",
+      "product": "Recharge MTN",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 2000.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Sac en plastique (2): 50F",
+      "entry_type": "sale",
+      "product": "Sac en plastique",
+      "quantity": 2.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 50.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    }
+  ],
+  "written_total": 5200.0,
+  "notes": "Vente a ticket"
+}

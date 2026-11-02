@@ -1,0 +1,80 @@
+{
+  "page_date": null,
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "10 Baguettes pain : 1500",
+      "entry_type": "purchase",
+      "product": "baguette de pain",
+      "quantity": 10.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 1500.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Omelette 4 oeufs : 800f",
+      "entry_type": "purchase",
+      "product": "omelette aux œufs",
+      "quantity": 4.0,
+      "unit": null,
+      "unit_price": null,
+      "total": 800.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Boîte lait concentré : 650",
+      "entry_type": "purchase",
+      "product": "lait concentré",
+      "quantity": null,
+      "unit": "boîte",
+      "unit_price": null,
+      "total": 650.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Milo sachet : 200",
+      "entry_type": "purchase",
+      "product": "Milo",
+      "quantity": null,
+      "unit": "sachet",
+      "unit_price": null,
+      "total": 200.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Spaghetti préparé (2 plat) : 1000f",
+      "entry_type": "purchase",
+      "product": "spaghetti préparé",
+      "quantity": 2.0,
+      "unit": "plat",
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Monnaie rendu client : 850f",
+      "entry_type": "other",
+      "product": null,
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 850.0,
+      "customer": null,
+      "date": null,
+      "legibility": "high"
+    }
+  ],
+  "written_total": 4500.0,
+  "notes": "Dépôt de jour à Petit dejeuner rapide"
+}

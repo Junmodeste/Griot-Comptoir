@@ -1,0 +1,68 @@
+{
+  "page_date": "2026-05-14",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Tomate : 3600F",
+      "entry_type": "purchase",
+      "product": "tomate",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 3600.0,
+      "customer": null,
+      "date": "2026-05-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Oignons rouges (tas) : 1.200F",
+      "entry_type": "purchase",
+      "product": "oignon rouge",
+      "quantity": null,
+      "unit": "tas",
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": "2026-05-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Huile rouge 1/1D : 1800",
+      "entry_type": "purchase",
+      "product": "huile rouge",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1800.0,
+      "customer": null,
+      "date": "2026-05-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "magne sec : 1000F",
+      "entry_type": "purchase",
+      "product": "magne sec",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-05-14",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "1 bte citron vert : 500",
+      "entry_type": "purchase",
+      "product": "citron vert",
+      "quantity": 1.0,
+      "unit": "boîte",
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-05-14",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 9100.0,
+  "notes": "14/5 marché"
+}

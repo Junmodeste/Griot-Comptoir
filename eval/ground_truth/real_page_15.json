@@ -1,0 +1,104 @@
+{
+  "page_date": "2026-10-02",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "yamousso (igname bété 2 têtes ): 3000",
+      "entry_type": "purchase",
+      "product": "igname bété",
+      "quantity": 2.0,
+      "unit": "tête",
+      "unit_price": null,
+      "total": 3000.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Placali préparé : 500f",
+      "entry_type": "purchase",
+      "product": "placali préparé",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Kpala (feuille de gombo):400",
+      "entry_type": "purchase",
+      "product": "feuille de gombo (kpala)",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 400.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Escargot fumé (4 pic) : 4.500f",
+      "entry_type": "purchase",
+      "product": "escargot fumé",
+      "quantity": 4.0,
+      "unit": "pic",
+      "unit_price": null,
+      "total": 4500.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Peau de boeuf (Kanda): 1500",
+      "entry_type": "purchase",
+      "product": "peau de boeuf (kanda)",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1500.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Adjovan : 300f",
+      "entry_type": "purchase",
+      "product": "adjovan",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Piment sec moulu : 200",
+      "entry_type": "purchase",
+      "product": "piment sec moulu",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 200.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Transport taxi compt : 2.000f",
+      "entry_type": "expense",
+      "product": "transport taxi",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 2000.0,
+      "customer": null,
+      "date": "2026-10-02",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 12900.0,
+  "notes": "Liste 4"
+}

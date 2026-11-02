@@ -23,7 +23,7 @@ NUMERIC_FIELDS = {"quantity", "unit_price", "total"}
 
 
 def _norm_text(value: str) -> str:
-    folded = unicodedata.normalize("NFKD", value.casefold())
+    folded = unicodedata.normalize("NFKD", value.casefold().replace("œ", "oe").replace("æ", "ae"))
     return " ".join("".join(c for c in folded if not unicodedata.combining(c)).split())
 
 
@@ -66,20 +66,21 @@ def evaluate_page(gt: LedgerPage, pred: LedgerPage) -> dict:
         "matched_lines": matched,
         "spurious_lines": len(pred.lines) - matched,
         "correct": correct,
+        "written_total_ok": field_equal("total", gt.written_total, pred.written_total),
     }
 
 
-def evaluate_dir(gt_dir: Path, pred_dir: Path) -> dict:
+def evaluate_dir(gt_dir: Path, pred_dir: Path, pattern: str = "*.json") -> dict:
     pages, totals = {}, {"gt_lines": 0, "matched_lines": 0, "spurious_lines": 0, "missing_pages": 0}
     correct = dict.fromkeys(FIELDS, 0)
-    for gt_path in sorted(gt_dir.glob("*.json")):
+    for gt_path in sorted(gt_dir.glob(pattern)):
         gt = LedgerPage.model_validate_json(gt_path.read_text(encoding="utf-8"))
         pred_path = pred_dir / gt_path.name
         if pred_path.exists():
             pred = LedgerPage.model_validate_json(pred_path.read_text(encoding="utf-8"))
         else:
             totals["missing_pages"] += 1
-            pred = LedgerPage(page_date=None, currency="XOF", lines=[], notes=None)
+            pred = LedgerPage(page_date=None, currency="XOF", lines=[], written_total=None, notes=None)
         result = evaluate_page(gt, pred)
         pages[gt_path.stem] = result
         for key in ("gt_lines", "matched_lines", "spurious_lines"):
@@ -96,6 +97,8 @@ def evaluate_dir(gt_dir: Path, pred_dir: Path) -> dict:
         "line_recall": round(totals["matched_lines"] / n, 4) if n else None,
         "field_accuracy": accuracy,
         "overall_accuracy": round(all_fields, 4) if all_fields is not None else None,
+        "written_total_accuracy": round(sum(r["written_total_ok"] for r in pages.values()) / len(pages), 4)
+        if pages else None,
         "per_page": pages,
     }
 
@@ -104,15 +107,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--gt", type=Path, default=Path("eval/ground_truth"))
     parser.add_argument("--pred", type=Path, required=True)
+    parser.add_argument("--pages", default="*.json", help="Ground-truth glob, e.g. 'real_page_*.json'")
     parser.add_argument("--out", type=Path, help="Write the full report as JSON")
     args = parser.parse_args(argv)
 
-    report = evaluate_dir(args.gt, args.pred)
+    report = evaluate_dir(args.gt, args.pred, args.pages)
     print(f"pages={report['pages']} lines={report['gt_lines']} recall={report['line_recall']} "
           f"spurious={report['spurious_lines']} missing_pages={report['missing_pages']}")
     for field, acc in report["field_accuracy"].items():
         print(f"  {field:<11} {acc}")
     print(f"  {'OVERALL':<11} {report['overall_accuracy']}")
+    print(f"  page written_total {report['written_total_accuracy']}")
     if args.out:
         args.out.write_text(json.dumps(report, indent=2), encoding="utf-8")
     return 0

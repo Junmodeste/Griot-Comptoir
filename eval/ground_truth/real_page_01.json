@@ -1,0 +1,80 @@
+{
+  "page_date": "2026-10-22",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "1 Sq de riz 15000",
+      "entry_type": "purchase",
+      "product": "riz",
+      "quantity": 1.0,
+      "unit": "sac",
+      "unit_price": null,
+      "total": 15000.0,
+      "customer": null,
+      "date": "2026-10-22",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Tomate 3kl : 3x900",
+      "entry_type": "purchase",
+      "product": "tomate",
+      "quantity": 3.0,
+      "unit": "kg",
+      "unit_price": 900.0,
+      "total": null,
+      "customer": null,
+      "date": "2026-10-22",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Viande 2 kilo : 2x3000",
+      "entry_type": "purchase",
+      "product": "viande",
+      "quantity": 2.0,
+      "unit": "kg",
+      "unit_price": 3000.0,
+      "total": null,
+      "customer": null,
+      "date": "2026-10-22",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Aubergine : 500",
+      "entry_type": "purchase",
+      "product": "aubergine",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 500.0,
+      "customer": null,
+      "date": "2026-10-22",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "huile 4L: 10000",
+      "entry_type": "purchase",
+      "product": "huile",
+      "quantity": 4.0,
+      "unit": "l",
+      "unit_price": null,
+      "total": 10000.0,
+      "customer": null,
+      "date": "2026-10-22",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Piment frais: 1.000",
+      "entry_type": "purchase",
+      "product": "piment frais",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-10-22",
+      "legibility": "high"
+    }
+  ],
+  "written_total": null,
+  "notes": "Liste du marché"
+}

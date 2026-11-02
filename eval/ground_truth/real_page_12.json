@@ -1,0 +1,92 @@
+{
+  "page_date": "2026-08-18",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Banane aloko (1 régime) : 2.500 f",
+      "entry_type": "purchase",
+      "product": "banane aloko",
+      "quantity": 1.0,
+      "unit": "régime",
+      "unit_price": null,
+      "total": 2500.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Poisson frais (carpe 2 kg) : 5.000 f",
+      "entry_type": "purchase",
+      "product": "poisson frais (carpe)",
+      "quantity": 2.0,
+      "unit": "kg",
+      "unit_price": null,
+      "total": 5000.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Tomat fraîche + concentré : 1.200",
+      "entry_type": "purchase",
+      "product": "tomate fraîche et concentré",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Huile dinor 2L : 2500",
+      "entry_type": "purchase",
+      "product": "huile Dinor",
+      "quantity": 2.0,
+      "unit": "L",
+      "unit_price": null,
+      "total": 2500.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Kankan / Epices : 300 f",
+      "entry_type": "purchase",
+      "product": "kankan et épices",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Charbon 1 sac : 3.000 F",
+      "entry_type": "purchase",
+      "product": "charbon",
+      "quantity": 1.0,
+      "unit": "sac",
+      "unit_price": null,
+      "total": 3000.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "wôrô - wôrô : 1.000 f",
+      "entry_type": "expense",
+      "product": "transport (wôrô-wôrô)",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1000.0,
+      "customer": null,
+      "date": "2026-08-18",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 16000.0,
+  "notes": "Liste 3"
+}

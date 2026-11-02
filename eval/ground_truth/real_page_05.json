@@ -1,0 +1,68 @@
+{
+  "page_date": "2026-11-03",
+  "currency": "XOF",
+  "lines": [
+    {
+      "raw_text": "Balai traditionnel : 400",
+      "entry_type": "sale",
+      "product": "balai traditionnel",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 400.0,
+      "customer": null,
+      "date": "2026-11-03",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Eponge : 300F",
+      "entry_type": "sale",
+      "product": "éponge",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 300.0,
+      "customer": null,
+      "date": "2026-11-03",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Omo lessive : 650",
+      "entry_type": "sale",
+      "product": "lessive Omo",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 650.0,
+      "customer": null,
+      "date": "2026-11-03",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Serpillière : 800F",
+      "entry_type": "sale",
+      "product": "serpillière",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 800.0,
+      "customer": null,
+      "date": "2026-11-03",
+      "legibility": "high"
+    },
+    {
+      "raw_text": "Cube maggi : 1200",
+      "entry_type": "sale",
+      "product": "cube Maggi",
+      "quantity": null,
+      "unit": null,
+      "unit_price": null,
+      "total": 1200.0,
+      "customer": null,
+      "date": "2026-11-03",
+      "legibility": "high"
+    }
+  ],
+  "written_total": 4850.0,
+  "notes": "03/11"
+}
