@@ -127,6 +127,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, required=True, help="Directory for <image>.json predictions")
     parser.add_argument("--reference-date", type=dt.date.fromisoformat, default=None)
     parser.add_argument("--reasoning-effort", default="medium", choices=["minimal", "low", "medium", "high"])
+    parser.add_argument("--provider", default="meta", choices=["meta", "baseten"])
     args = parser.parse_args(argv)
 
     # Directories are expanded here because PowerShell does not expand *.jpg.
@@ -135,7 +136,7 @@ def main(argv: list[str] | None = None) -> int:
         for f in (sorted(p.iterdir()) if p.is_dir() else [p])
         if f.suffix.lower() in IMAGE_SUFFIXES
     ]
-    client = MetaClient.from_env()
+    client = MetaClient.from_env(args.provider)
     args.out.mkdir(parents=True, exist_ok=True)
     run, failures = [], 0
     for image in images:
