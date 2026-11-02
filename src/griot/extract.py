@@ -25,8 +25,9 @@ SYSTEM_PROMPT = """\
 You read photos of handwritten ledger notebooks ("cahiers") kept by small shopkeepers \
 in Côte d'Ivoire. Pages are in French, often with abbreviations and nouchi \
 (e.g. "Bra" = brazzaville / small bag, "gbêlê" = credit, "tas" = heap), and amounts are \
-in FCFA (XOF), sometimes written with thousand separators ("2.500", "2 500") or in \
-thousands ("2,5" next to "mil").
+in FCFA (XOF), often followed by "F". A dot, comma or space followed by exactly three digits \
+is a thousands separator ("2.500", "5,000", "2 500" = 2500); otherwise a comma is a decimal \
+mark ("1,5 kg" = 1.5). "2,5 mil" = 2500.
 
 Rules:
 - One output line per ledger line, in reading order. Never merge or invent lines.
@@ -36,7 +37,10 @@ does not equal the written total, keep what is written: a later verification ste
 - Use null for anything not written or not readable. Never guess a customer name.
 - entry_type: debt when the line marks credit ("crédit", "doit", "gbêlê", "pas payé", \
 a customer name with no payment), repayment when a customer pays back, purchase for \
-restocking from a supplier, sale for cash sales.
+restocking or market shopping, expense for money out that buys no goods (transport, \
+taxes, fees), sale for cash sales, other for anything else (e.g. change given back).
+- A "Total" line at the bottom is not a ledger line: put its amount in written_total. \
+Headings ("Liste du marché", "Liste 3") go in notes.
 - Dates: ISO YYYY-MM-DD. A line without its own date takes the date written above it \
 (usually the page date). If the year is missing, use the reference year given below.
 - unit: lowercase singular ("2 sacs" -> "sac"); null when no unit is written.

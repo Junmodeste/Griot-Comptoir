@@ -17,6 +17,7 @@ class EntryType(str, Enum):
     debt = "debt"  # vente à crédit ("crédit", "doit")
     repayment = "repayment"  # remboursement d'une dette
     purchase = "purchase"  # achat / réapprovisionnement
+    expense = "expense"  # transport, frais, taxes: money out, no stock
     other = "other"
 
 
@@ -47,6 +48,7 @@ class LedgerPage(BaseModel):
     page_date: dt.date | None = Field(description="Date written at the top of the page, if any.")
     currency: str = Field(description="ISO currency code, XOF unless the page says otherwise.")
     lines: list[LedgerLine]
+    written_total: float | None = Field(description="Page total as written (\"Total = ...\"), never a ledger line.")
     notes: str | None = Field(description="Anything on the page that is not a ledger line.")
 
 

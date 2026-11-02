@@ -62,7 +62,7 @@ def build_page(page_date: str, rows: list[tuple]) -> LedgerPage:
         )
         for text, et, prod, qty, unit, price, total, cust, day in rows
     ]
-    return LedgerPage(page_date=page_date, currency="XOF", lines=lines, notes=None)
+    return LedgerPage(page_date=page_date, currency="XOF", lines=lines, written_total=None, notes=None)
 
 
 def render(page: LedgerPage, font_path: str | None, seed: int) -> Image.Image:
