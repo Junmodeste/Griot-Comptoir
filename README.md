@@ -37,9 +37,13 @@ pytest                                                   # offline tests
 python scripts\check_connection.py                      # Meta Model API reachable?
 python -m griot.agent data\samples --out runs\demo     # read + verify + review queue
 python -m griot.evaluate --pred runs\demo               # accuracy vs ground truth
-python -m griot.sync runs\demo                          # book the safe lines into Odoo
-python -m griot.sync runs\demo --approve real_page_03:page,4   # after a human answered
+python -m griot.review runs\demo                        # review page on http://127.0.0.1:8000
+python -m griot.sync runs\demo                          # or book from the command line
 ```
+
+The review page shows the photo next to what the agent read, asks only the open questions (a wrong
+calculation, a page total that does not add up, a missing date), lets the human correct a value or
+approve, and books the page into Odoo. Every correction and approval goes to `audit.jsonl`.
 
 `scripts\setup_odoo_demo.py` prepares an empty test database (XOF, Côte d'Ivoire). Never run it on a real company.
 
@@ -60,6 +64,7 @@ up to 0.96 field accuracy, unit price 1.00 after grounding. A human answers 5 li
 | `src/griot/agent.py` | The agent loop: extract, rotate, ground, verify, re-read |
 | `src/griot/odoo.py`, `sync.py` | Odoo XML-RPC client and idempotent booking (`GRIOT/<page>/L<lines>` references) |
 | `src/griot/audit.py` | Append-only JSONL audit log |
+| `src/griot/review.py`, `review.html` | Local review page (French UI, Python standard library server) |
 | `src/griot/evaluate.py` | Per-field accuracy and review-queue metrics |
 | `data/samples/`, `eval/ground_truth/` | 15 handwritten + 3 synthetic pages and their ground truth |
 
