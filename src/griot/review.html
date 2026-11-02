@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Griot Comptoir — Relecture</title>
+<style>
+  :root {
+    --bg: #f7f4ee; --panel: #ffffff; --ink: #1d2340; --muted: #6b6f80; --line: #e4dfd4;
+    --accent: #c8781e; --accent-ink: #ffffff; --ok: #2f7d4f; --ok-bg: #e5f3ea;
+    --warn: #9a5b00; --warn-bg: #fdf0d9; --bad: #a2302a; --bad-bg: #fbe4e2; --focus: #3b5bdb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161f; --panel: #1d2030; --ink: #eceaf2; --muted: #9a9db0; --line: #2e3246;
+      --accent: #e3963a; --accent-ink: #14161f; --ok: #7fd3a0; --ok-bg: #1d3328;
+      --warn: #f2c27a; --warn-bg: #3a2e18; --bad: #f19a93; --bad-bg: #3b1f1d; --focus: #8ca6ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; align-items: baseline; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel); }
+  header h1 { margin: 0; font-size: 18px; }
+  header span { color: var(--muted); font-size: 13px; }
+  .layout { display: grid; grid-template-columns: 230px 1fr; min-height: calc(100vh - 54px); }
+  nav { border-right: 1px solid var(--line); padding: 10px; overflow-y: auto; }
+  nav button { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 6px; padding: 8px 10px; margin-bottom: 4px;
+               border: 1px solid transparent; border-radius: 8px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+  nav button:hover { background: var(--panel); }
+  nav button.active { background: var(--panel); border-color: var(--line); font-weight: 600; }
+  main { padding: 16px 20px 40px; display: grid; grid-template-columns: minmax(220px, 25%) 1fr; gap: 18px; align-items: start; }
+  main > * { min-width: 0; }
+  .photo { position: sticky; top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+  .photo img { width: 100%; border-radius: 8px; display: block; cursor: zoom-in; }
+  .photo.zoom img { cursor: zoom-out; width: 200%; }
+  .photo.zoom { overflow: auto; max-height: 90vh; }
+  section.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+  section.card h2 { margin: 0 0 10px; font-size: 15px; }
+  .chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .chip.ok { background: var(--ok-bg); color: var(--ok); }
+  .chip.warn { background: var(--warn-bg); color: var(--warn); }
+  .chip.bad { background: var(--bad-bg); color: var(--bad); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.lines { table-layout: fixed; min-width: 860px; }
+  th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 600; padding: 4px 4px 6px; border-bottom: 1px solid var(--line); }
+  td { padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr.review td { background: var(--warn-bg); }
+  tr.review.approved td { background: none; }
+  td.raw { font-family: "Segoe Print", "Comic Sans MS", cursive; color: var(--ink); overflow-wrap: anywhere; }
+  tr:has(+ tr.issue-row) td { border-bottom: 0; }
+  tr.issue-row td { padding-top: 0; }
+  .issues { margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--warn); font-family: system-ui, sans-serif; }
+  tr.approved .issues { color: var(--muted); text-decoration: line-through; }
+  .actionbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-left: 4px solid var(--accent); }
+  .actionbar.done { border-left-color: var(--ok); }
+  .actionbar strong { font-size: 16px; }
+  input, select { width: 100%; min-width: 0; padding: 4px 6px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--ink); font: inherit; font-size: 13px; }
+  select { appearance: none; -webkit-appearance: none; }
+  input:hover, select:hover, tr.review:not(.approved) input, tr.review:not(.approved) select { border-color: var(--line); background: var(--panel); }
+  input:focus, select:focus, button:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+  input.num { text-align: right; }
+  button.act { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  .actionbar.done button.primary { background: var(--ok-bg); color: var(--ok); border-color: var(--ok-bg); opacity: 1; }
+  .question { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .question:last-child { border-bottom: 0; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .toast { position: fixed; bottom: 18px; right: 18px; padding: 10px 14px; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: 14px; display: none; max-width: 420px; }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; } nav { border-right: 0; border-bottom: 1px solid var(--line); display: flex; overflow-x: auto; }
+    nav button { width: auto; margin-right: 4px; } main { grid-template-columns: 1fr; padding: 12px 16px; } .photo { position: static; }
+  }
+</style>
+</head>
+<body>
+<header><h1>Griot Comptoir</h1><span>Relecture du cahier avant enregistrement dans Odoo</span></header>
+<div class="layout">
+  <nav id="pages" aria-label="Pages du cahier"></nav>
+  <main id="main"><p class="muted">Choisissez une page.</p></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const TYPES = {purchase: "Achat", sale: "Vente", debt: "Crédit", repayment: "Remboursement", expense: "Dépense", other: "Autre"};
+const ISSUES = {
+  arithmetic_mismatch: "Le calcul ne tombe pas juste", missing_amount: "Pas de montant",
+  total_not_in_text: "Total introuvable dans la ligne", quantity_not_in_text: "Quantité introuvable dans la ligne",
+  unit_price_not_in_text: "Prix unitaire introuvable dans la ligne", debt_without_customer: "Crédit sans nom de client",
+  unclassified_entry: "Type de ligne inconnu", missing_date: "Ligne sans date", fractional_count: "Quantité non entière",
+  unknown_unit: "Unité inconnue", total_not_multiple_of_5: "Montant FCFA inhabituel",
+  page_total_mismatch: "Le total écrit ne correspond pas à la somme des lignes",
+  missing_page_date: "Pas de date sur la page",
+};
+const KIND = {purchase: "Bon de commande fournisseur + réception", sale: "Commande client + livraison",
+              debt: "Facture client (créance)", repayment: "Paiement client"};
+const label = id => id.replace(/^real_page_/, "Page ").replace(/^synthetic_page_/, "Exemple ");
+const fcfa = n => n == null ? "—" : Number(n).toLocaleString("fr-FR", {maximumFractionDigits: 2}) + " F";
+const num = n => Number(n).toLocaleString("fr-FR", {maximumFractionDigits: 2});
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+let current = null;
+
+function toast(msg) {
+  const t = document.getElementById("toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => t.style.display = "none", 4000);
+}
+async function api(path, body) {
+  const res = await fetch(path, body ? {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)} : {});
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+async function loadPages() {
+  const pages = await api("/api/pages");
+  document.getElementById("pages").innerHTML = pages.map(p => {
+    const open = p.review + p.page_questions;
+    const chip = p.booked.length ? `<span class="chip ok">Enregistrée</span>`
+               : open ? `<span class="chip warn">${open} question${open > 1 ? "s" : ""}</span>`
+               : `<span class="chip ok">Prête</span>`;
+    return `<button class="${p.id === current ? "active" : ""}" data-id="${esc(p.id)}">${esc(label(p.id))} ${chip}</button>`;
+  }).join("");
+  document.querySelectorAll("nav button").forEach(b => b.onclick = () => show(b.dataset.id));
+}
+function cell(i, field, value, kind) {
+  if (field === "entry_type") {
+    return `<select data-line="${i}" data-field="${field}" aria-label="Type ligne ${i}">${Object.entries(TYPES).map(([k, v]) =>
+      `<option value="${k}" ${k === value ? "selected" : ""}>${v}</option>`).join("")}</select>`;
+  }
+  return `<input data-line="${i}" data-field="${field}" class="${kind === "num" ? "num" : ""}" value="${esc(value)}" aria-label="${field} ligne ${i}" ${kind === "date" ? 'type="date"' : ""}>`;
+}
+function render(v) {
+  const p = v.page;
+  const questions = v.page_issues.length && !v.page_approved;
+  const reviewLeft = v.lines.filter(l => l.status === "review" && !l.approved).length;
+  const open = reviewLeft + (questions ? v.page_issues.length : 0);
+  const done = v.booked.length > 0 && v.booked.length >= v.plan.documents.length;
+  // Client only matters for credit lines; a date column only when a line differs from the page date.
+  const showClient = p.lines.some(l => l.customer || l.entry_type === "debt" || l.entry_type === "repayment");
+  const showDate = p.lines.some(l => l.date !== p.page_date);
+  document.getElementById("main").innerHTML = `
+    <div class="photo" id="photo"><img src="/photo/${encodeURIComponent(v.id)}" alt="Photo de la page ${esc(v.id)}"></div>
+    <div>
+      <section class="card actionbar ${done ? "done" : ""}">
+        <div><strong>${done ? "Enregistrée dans Odoo" : open ? `${open} question${open > 1 ? "s" : ""} avant l'enregistrement` : "Prête à enregistrer"}</strong>
+          <div class="muted">${done ? v.booked.map(b => `${esc(b.name)} · ${fcfa(b.amount)}`).join(" — ")
+            : v.plan.documents.length ? `${v.plan.documents.length} document${v.plan.documents.length > 1 ? "s" : ""} Odoo · ${fcfa(v.plan.documents.reduce((t, d) => t + d.amount, 0))}`
+            : "Répondez aux questions ci-dessous, l'agent fait le reste."}</div></div>
+        <button class="act primary" id="book" ${v.plan.documents.length && !done ? "" : "disabled"}>${done ? "Enregistré" : "Enregistrer dans Odoo"}</button>
+      </section>
+      <section class="card">
+        <div class="row" style="justify-content:space-between">
+          <h2 class="row">${esc(label(v.id))} · <input id="page-date" type="date" value="${esc(p.page_date)}" aria-label="Date de la page" style="width:150px;${p.page_date ? "" : "border-color:var(--warn)"}"></h2>
+          <span class="muted">Somme des lignes ${fcfa(v.lines_sum)} · Total écrit ${fcfa(p.written_total)}</span>
+        </div>
+        ${p.rotation ? `<p class="muted">Photo prise de travers : l'agent l'a redressée (${p.rotation}°) avant de la relire.</p>` : ""}
+        ${v.page_issues.length ? v.page_issues.map(q => `<div class="question"><span>${questions ? "❓" : "✅"} ${esc(ISSUES[q.code] || q.message)}</span></div>`).join("")
+          + (questions ? `<div class="row" style="margin-top:8px"><button class="act" id="approve-page">J'ai vérifié la page, on garde les lignes</button></div>` : "")
+          : `<p class="muted">Aucune question sur la page.</p>`}
+      </section>
+      <section class="card">
+        <h2>Lignes lues par l'agent ${reviewLeft ? `<span class="chip warn">${reviewLeft} à vérifier</span>` : `<span class="chip ok">tout est clair</span>`}</h2>
+        <div style="overflow-x:auto"><table class="lines">
+          <colgroup><col style="width:28px"><col style="width:180px"><col style="width:92px"><col><col style="width:46px"><col style="width:66px"><col style="width:76px"><col style="width:80px">${showClient ? '<col style="width:92px">' : ""}${showDate ? '<col style="width:132px">' : ""}<col style="width:92px"></colgroup>
+          <thead><tr><th>#</th><th>Écrit sur le cahier</th><th>Type</th><th>Produit</th><th>Qté</th><th>Unité</th><th>Prix unit.</th><th>Total</th>${showClient ? "<th>Client</th>" : ""}${showDate ? "<th>Date</th>" : ""}<th></th></tr></thead>
+          <tbody>${p.lines.map((l, k) => { const s = v.lines[k], i = k + 1; return `
+            <tr class="${s.status}${s.approved ? " approved" : ""}">
+              <td>${i}</td>
+              <td class="raw">${esc(l.raw_text)}</td>
+              <td>${cell(i, "entry_type", l.entry_type)}</td>
+              <td>${cell(i, "product", l.product)}</td>
+              <td>${cell(i, "quantity", l.quantity, "num")}</td>
+              <td>${cell(i, "unit", l.unit)}</td>
+              <td>${cell(i, "unit_price", l.unit_price, "num")}</td>
+              <td>${cell(i, "total", l.total, "num")}</td>
+              ${showClient ? `<td>${cell(i, "customer", l.customer)}</td>` : ""}
+              ${showDate ? `<td>${cell(i, "date", l.date, "date")}</td>` : ""}
+              <td>${s.status === "review" && !s.approved ? `<button class="act" data-approve="${i}">Valider</button>`
+                    : `<span class="chip ok" title="Confiance de l'agent">${s.approved ? "Validée" : Math.round(s.confidence * 100) + " %"}</span>`}</td>
+            </tr>${s.issues.length ? `<tr class="${s.status}${s.approved ? " approved" : ""} issue-row"><td></td><td colspan="${8 + showClient + showDate}"><ul class="issues">${s.issues.map(x => `<li>⚠ ${esc(ISSUES[x.code] || x.message)}${x.code === "arithmetic_mismatch" ? ` : ${num(l.quantity)} × ${num(l.unit_price)} = ${num(l.quantity * l.unit_price)}, mais ${num(l.total)} est écrit sur le cahier` : ""}</li>`).join("")}</ul></td></tr>` : ""}`; }).join("")}</tbody>
+        </table></div>
+      </section>
+      <section class="card">
+        <h2>${done ? "Ce qui a été enregistré dans Odoo" : "Ce qui sera enregistré dans Odoo"}</h2>
+        ${v.plan.documents.length ? `<table><tbody>${v.plan.documents.map(d => `<tr><td>${KIND[d.kind]}</td><td>${esc(d.partner)}</td><td>lignes ${d.lines.join(", ")}</td><td style="text-align:right">${fcfa(d.amount)}</td></tr>`).join("")}</tbody></table>`
+          : `<p class="muted">Rien pour l'instant : répondez d'abord aux questions.</p>`}
+        ${v.plan.held.length ? `<p class="muted">En attente : ${v.plan.held.map(h => `ligne ${h.line}`).join(", ")}.</p>` : ""}
+      </section>
+    </div>`;
+  document.getElementById("photo").onclick = e => e.currentTarget.classList.toggle("zoom");
+  document.querySelectorAll("[data-field]").forEach(el => el.onchange = async () => {
+    const value = el.classList.contains("num") && el.value !== "" ? Number(el.value.replace(/\s/g, "").replace(",", ".")) : el.value;
+    try { render(await api(`/api/pages/${v.id}/correct`, {line: +el.dataset.line, field: el.dataset.field, value})); loadPages(); toast("Correction enregistrée"); }
+    catch (err) { toast("Refusé : " + err.message); render(v); }
+  });
+  document.querySelectorAll("[data-approve]").forEach(b => b.onclick = async () => {
+    render(await api(`/api/pages/${v.id}/approve`, {target: b.dataset.approve})); loadPages();
+  });
+  document.getElementById("page-date").onchange = async e => {
+    try { render(await api(`/api/pages/${v.id}/page_date`, {value: e.target.value})); loadPages(); toast("Date de la page enregistrée"); }
+    catch (err) { toast("Refusé : " + err.message); }
+  };
+  const ap = document.getElementById("approve-page");
+  if (ap) ap.onclick = async () => { render(await api(`/api/pages/${v.id}/approve`, {target: "page"})); loadPages(); };
+  document.getElementById("book").onclick = async e => {
+    e.target.disabled = true; e.target.textContent = "Enregistrement…";
+    try { const r = await api(`/api/pages/${v.id}/book`, {}); render(r); loadPages(); toast("Enregistré : " + r.booked.map(b => b.name).join(", ")); }
+    catch (err) { toast("Odoo : " + err.message); render(v); }
+  };
+}
+async function show(id) { current = id; render(await api(`/api/pages/${id}`)); loadPages(); }
+loadPages().then(() => { const first = document.querySelector("nav button"); if (first) show(first.dataset.id); });
+</script>
+</body>
+</html>

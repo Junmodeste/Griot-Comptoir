@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -256,8 +257,13 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     approvals = parse_approvals(args.approve)
+    saved = args.run_dir / "approvals.json"  # written by the review page
+    if saved.exists():
+        for page, targets in json.loads(saved.read_text(encoding="utf-8")).items():
+            approvals.setdefault(page, set()).update(targets)
     sync = OdooSync(OdooClient.from_env(), AuditLog(args.run_dir / "audit.jsonl"))
-    pages = sorted(p for p in args.run_dir.glob("*.json") if not p.name.endswith(".verdict.json"))
+    pages = sorted(p for p in args.run_dir.glob("*.json")
+                   if not p.name.endswith(".verdict.json") and p.name != "approvals.json")
     for path in pages:
         if args.pages and path.stem not in args.pages:
             continue
